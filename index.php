@@ -1,11 +1,5 @@
 <?php
-require 'vendor/autoload.php';
 
+echo "hello world";
 
-Flight::route( '/' , function(){
-    echo 'Hello world!';
-
-});
-
-Flight::start();
 ?>
