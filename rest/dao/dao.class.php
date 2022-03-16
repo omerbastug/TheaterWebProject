@@ -59,6 +59,11 @@ class MoviesDao {
     $stmt->execute($params);
     return $stmt->fetchall();
   }
+
+  public function queryUnique($query,$params){
+    $res = $this->query($query,$params);
+    return reset($res);
+  }
   
 }
 
