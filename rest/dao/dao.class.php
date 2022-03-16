@@ -50,7 +50,16 @@ class MoviesDao {
     $stmt = $this->conn->prepare("UPDATE movielist SET movieName=:descriptionn, datePublished=:created WHERE id=:id");
     $stmt->execute(['id' => $id, 'descriptionn' => $descriptionn, 'created' => $created]);
   }
+  
 
+  // Do any query in database
+
+  public function query($query,$params){
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute($params);
+    return $stmt->fetchall();
+  }
+  
 }
 
 
