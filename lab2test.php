@@ -15,6 +15,15 @@ print_r($movie);
 print_r($mov);
 
 
+$admin = new MoviesDao();
+$mov = [
+    'movie' => 'Batman',
+    'published' => '1999-03-18'
+];
+$admin->addMovie($mov);
+print_r($admin->get_all());
+// $admin->query("DELETE FROM movielist WHERE movieName = :yak",['yak'=> $mov['movie']]);
+
 
 //  $dao = new MoviesDao();
 //  $op = $_REQUEST['op'];

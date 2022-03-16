@@ -29,11 +29,15 @@ class MoviesDao {
   /**
   * Method used to add todo to the database
   */
-  public function add($descriptionn, $created){
-    $stmt = $this->conn->prepare("INSERT INTO movielist (movieName, datePublished) VALUES ( :descriptionn , :created )");
-    $stmt->execute(['descriptionn' => $descriptionn, 'created' => $created]); // Same as bindParam() / Injection prevention
+  public function add($movie, $published){
+    $stmt = $this->conn->prepare("INSERT INTO movielist (movieName, datePublished) VALUES ( :movie , :published )");
+    $stmt->execute(['movie' => $movie, 'published' => $published]); // Same as bindParam() / Injection prevention
   }
 
+  public function addMovie($movie){
+    $stmt = $this->conn->prepare("INSERT INTO movielist (movieName, datePublished) VALUES ( :movie , :published )");
+    $stmt->execute($movie);
+  } 
   /**
   * Delete todo record from the database
   */
