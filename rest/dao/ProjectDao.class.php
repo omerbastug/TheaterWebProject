@@ -20,12 +20,21 @@ class ProjectDao {
         $stmt->execute(['name' => $name, 'surname' => $surname, 'role' => $role, 'email' => $email]);
     }
 
-    public function getAllFromTable($table){
-        $stmt = $this->conn->prepare("SELECT * FROM ?");
-        $stmt->execute($table);
+    public function getAllFromTable($pe){
+        $stmt = $this->conn->prepare("SELECT * FROM :p");
+        $stmt->execute(['p' => $pe]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function getper(){
+        $stmt = $this->conn->prepare("SELECT * FROM person");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);    
+    }
 
+    public function updateEmailOnID($id , $email){
+        $stmt = $this->conn->prepare("UPDATE person SET email = :email WHERE id = :id");
+        $stmt->execute(['id' => $id , 'email' => $email]);
+    }
 
 }
 
