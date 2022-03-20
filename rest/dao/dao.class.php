@@ -26,7 +26,7 @@ class MoviesDao {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  /**
+  /**x`
   * Method used to add todo to the database
   */
   public function add($movie, $published){
@@ -36,7 +36,7 @@ class MoviesDao {
 
   public function addMovie($movie){
     $stmt = $this->conn->prepare("INSERT INTO movielist (movieName, datePublished) VALUES ( :movie , :published )");
-    $stmt->execute($movie);
+    $stmt->execute();
   } 
   /**
   * Delete todo record from the database
