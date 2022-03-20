@@ -7,8 +7,8 @@ class ProjectDao {
     public function __construct(){
 
         $servername = "localhost";
-        $username = "freedb_projectAdmin";
-        $password = "NkpGEJ*wV4m@E7J";
+        $username = "newuser";
+        $password = "admin";
         $database = "cinemaproject";
         $this->conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
         // set the PDO error mode to exception
@@ -35,6 +35,11 @@ class ProjectDao {
         $stmt = $this->conn->prepare("UPDATE person SET email = :email WHERE id = :id");
         $stmt->execute(['id' => $id , 'email' => $email]);
     }
+
+    public function deleteByID($id) {
+        $stmt = $this->conn->prepare("DELETE FROM person WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+    } 
 
 }
 
