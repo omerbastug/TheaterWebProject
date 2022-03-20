@@ -6,5 +6,5 @@ require_once dirname(__FILE__).'\rest\dao\ProjectDao.class.php';
 $con = new ProjectDao(); 
 
 $con->addtoPerson("Omer","Bastug","1","omer@gmail.com");
-
+print_r($con->getAllFromTable("person"));
 ?>
