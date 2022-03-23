@@ -20,11 +20,15 @@ class ProjectDao {
         $stmt->execute(['name' => $name, 'surname' => $surname, 'role' => $role, 'email' => $email]);
     }
 
+
+
     public function getAllFromTable($pe){
         $stmt = $this->conn->prepare("SELECT * FROM :p");
         $stmt->execute(['p' => $pe]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    
     public function getper(){
         $stmt = $this->conn->prepare("SELECT * FROM person");
         $stmt->execute();
