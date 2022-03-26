@@ -38,7 +38,7 @@ class ProjectDao {
 
     public function updateEmailOnID($id , $email){
         $stmt = $this->conn->prepare("UPDATE person SET email = :email WHERE id = :id");
-        $stmt->execute(['id' => $id , 'email' => $email]);
+        $stmt->execute(['id' => $id , 'email' => $email['email']]);
     }
 
     public function deleteByID($id) {
