@@ -15,9 +15,10 @@ class ProjectDao {
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
-    public function addtoPerson($name,$surname,$role,$email){
-        $stmt = $this->conn->prepare("INSERT INTO person (Name, Surname, Role_id, email) VALUES (:name, :surname, :role, :email)");
-        $stmt->execute(['name' => $name, 'surname' => $surname, 'role' => $role, 'email' => $email]);
+    public function addtoPerson($person){
+        $stmt = $this->conn->prepare("INSERT INTO person (name, surname, email) VALUES (:name, :surname, :email)");
+        $stmt->execute($person);
+        echo "New Person added to person table.";
     }
 
 
@@ -45,6 +46,15 @@ class ProjectDao {
         $stmt->execute(['id' => $id]);
     } 
 
+    public function PurchaseTicket($info){
+        $q1 = "INSERT INTO ticketsPurchased (session_id, seatRow, seatColumn, personID) VALUES (:sessionID, :seatrow, :seatcolumn, :personID);";
+        $q2 = "UPDATE sessions SET ticketsAvailable = ticketsAvailable-1 WHERE id = :sessionID;";
+        $stmt = $this->conn->prepare($q1);
+        $stmt->execute($info); 
+        $stmt = $this->conn->prepare($q2);
+        $stmt->execute(['sessionID' => $info["sessionID"]]);
+        echo "purhcased";
+    }
 }
 
 ?>
