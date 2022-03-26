@@ -21,6 +21,12 @@ class ProjectDao {
         echo "New Person added to person table.";
     }
 
+    public function addtoPlays($play){
+        $stmt = $this->conn->prepare("INSERT INTO sessions (name, author, durationMinutes, asd) VALUES (:name, :author, :durationMinutes, :asd)");
+        $stmt->execute($play);
+        echo "New Play added to play table.";
+    }
+
 
 
     public function getAllFromTable($pe){
@@ -36,15 +42,36 @@ class ProjectDao {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);    
     }
 
+    public function getsessions(){
+        $stmt = $this->conn->prepare("SELECT * FROM sessions");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);    
+    }
+
     public function updateEmailOnID($id , $email){
         $stmt = $this->conn->prepare("UPDATE person SET email = :email WHERE id = :id");
         $stmt->execute(['id' => $id , 'email' => $email['email']]);
     }
 
+    
     public function deleteByID($id) {
         $stmt = $this->conn->prepare("DELETE FROM person WHERE id = :id");
         $stmt->execute(['id' => $id]);
+        echo "Deleted";
     } 
+
+    public function deleteByPlayID($id) {
+        $stmt = $this->conn->prepare("DELETE FROM play WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        echo "Deleted";
+    }
+
+    public function deleteBySessionsID($id) {
+        $stmt = $this->conn->prepare("DELETE FROM sessions WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        echo "Deleted";
+    }
+    
 
     public function PurchaseTicket($info){
         $q1 = "INSERT INTO ticketsPurchased (session_id, seatRow, seatColumn, personID) VALUES (:sessionID, :seatrow, :seatcolumn, :personID);";
