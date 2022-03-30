@@ -44,6 +44,13 @@ class ProjectDao {
         $stmt = $this->conn->prepare("DELETE FROM person WHERE id = :id");
         $stmt->execute(['id' => $id]);
     } 
+    public function getSessionsInfo(){
+        $stmt = $this->conn->prepare("SELECT pl.name, ss.time, ss.ticketsAvailable, pl.durationMinutes
+        FROM sessions as ss
+        JOIN play as pl on pl.id = ss.play_id;");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 }
 

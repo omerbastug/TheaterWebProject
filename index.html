@@ -115,10 +115,8 @@
             </div>
           </div>
     
-          <div style="width: 40vw; height: 40vw; margin: 10px auto;"> 
-            <ul id="sessions">
-                
-            </ul>
+          <div style="width: 40vw; height: 40vw; margin: 10px auto;" id="sessions"> 
+            
           </div>
     
           <h2>Section title</h2>
@@ -263,6 +261,20 @@
 <script src="js/jquery-3.6.0.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
 <script>
-    
+    getSessions();
+
+    function getSessions(){
+    $.get("rest/sessions", function(data){
+        $("#sessions").html("");
+        var html ="";
+        for(let i=0;i<data.length;i++){
+            html += `<div style="border: 3px solid red; display: inline-block;"> ${data[i].name} at ${data[i].time}, ${data[i].durationMinutes}minutes long. 
+            tickets availabe: ${data[i].ticketsAvailable} </div> `;
+        }
+        $("#sessions").html(html);
+        console.log(data);
+    });
+}
+
 </script>
 </html>
