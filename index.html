@@ -116,7 +116,9 @@
           </div>
     
           <div style="width: 40vw; height: 40vw; margin: 10px auto;" id="sessions"> 
-            
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
           </div>
     
           <h2>Section title</h2>
@@ -265,16 +267,53 @@
 
     function getSessions(){
     $.get("rest/sessions", function(data){
-        $("#sessions").html("");
+        $("#sessions").html(``);
         var html ="";
         for(let i=0;i<data.length;i++){
-            html += `<div style="border: 3px solid red; display: inline-block;"> ${data[i].name} at ${data[i].time}, ${data[i].durationMinutes}minutes long. 
-            tickets availabe: ${data[i].ticketsAvailable} </div> `;
+            html += `<div style="border: 3px solid red; display: block; width:100%;">
+            <p>${data[i].name} at ${data[i].time}, ${data[i].durationMinutes}minutes long. 
+            tickets available: ${data[i].ticketsAvailable}</p>
+            <button type="button" class="showSeat" style="display: block;" onclick="ShowModal(${data[i].theatre_id})">Show Seats</button>
+            </div>`;
         }
         $("#sessions").html(html);
-        console.log(data);
     });
+
+    
 }
 
+function ShowModal(id){
+    $('.showSeat').attr('disabled', true);
+    $("#modal-body").html("");
+    var html = "";
+    $.get("rest/theatre/"+id, function(data){
+        for(let i = 0; i < data[0].numberofrows; i++){
+            html += `<p style="diplay: inline-block;"> ${i+1}</p>`
+            for(let j = 0; j < data[0].numberofcolumn;j++){
+                html+= `<button style="diplay: inline-block; margin: 5px;" type="button" class="btn btn-primary">${j+1}</button>`;
+            }
+            html += `<br>`;
+        }
+        $(".modal-body").html(html);
+        $("#seatModal").modal("show");
+        $('.showSeat').attr('disabled',false);
+    });
+}
 </script>
+<div class="modal fade" id="seatModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </html>

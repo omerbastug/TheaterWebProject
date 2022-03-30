@@ -31,5 +31,8 @@ Flight::route('GET /sessions',function(){
     Flight::json(Flight::projectdao()->getSessionsInfo());
 });
 
+Flight::route('GET /theatre/@id',function($id){
+    Flight::json(Flight::projectdao()->getTheatreRowColumn($id));
+});
 Flight::start();
 ?>

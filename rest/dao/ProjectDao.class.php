@@ -45,13 +45,17 @@ class ProjectDao {
         $stmt->execute(['id' => $id]);
     } 
     public function getSessionsInfo(){
-        $stmt = $this->conn->prepare("SELECT pl.name, ss.time, ss.ticketsAvailable, pl.durationMinutes
+        $stmt = $this->conn->prepare("SELECT pl.name, ss.time, ss.ticketsAvailable, pl.durationMinutes, ss.theatre_id
         FROM sessions as ss
         JOIN play as pl on pl.id = ss.play_id;");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
+    public function getTheatreRowColumn($id){
+        $stmt = $this->conn->prepare("SELECT numberofrows,numberofcolumn FROM theatre WHERE id =:id");
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 
 ?>
