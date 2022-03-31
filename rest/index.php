@@ -27,14 +27,17 @@ Flight::route('PUT /updateEmail/@id', function($id){
     Flight::projectdao()->updateEmailOnID($id, Flight::request()->data->getData());
 });
 
+//Gets sessions
 Flight::route('GET /sessions',function(){
     Flight::json(Flight::projectdao()->getSessionsInfo());
 });
 
+// Gets seat info
 Flight::route('GET /theatre/@id',function($id){
     Flight::json(Flight::projectdao()->getTheatreRowColumn($id));
 });
 
+// Gets sold tickets info
 Flight::route('GET /ticketssold/@id',function($id){
     Flight::json(Flight::projectdao()->ticketsSold($id));
 });
