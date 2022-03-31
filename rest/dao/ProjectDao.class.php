@@ -62,6 +62,9 @@ class ProjectDao {
         $stmt->execute(['id' => $ses_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+
+}
 }
 
 ?>
