@@ -114,7 +114,7 @@
               </button>
             </div>
           </div>
-    
+          <button type="button" id="logintoggle" data-bs-toggle="modal" data-bs-target="#loginModal">LOGIN</button>
           <div style="width: 40vw; height: 40vw; margin: 10px auto;" id="sessions"> 
             <div class="spinner-border" role="status">
                 <span class="visually-hidden">Loading...</span>
@@ -264,10 +264,9 @@
 <script src="js/bootstrap.bundle.min.js"></script>
 <script>
     getSessions();
-
+    
     function getSessions(){
     $.get("rest/sessions", function(data){
-        $("#sessions").html(``);
         var html ="";
         for(let i=0;i<data.length;i++){
             html += `<div style="border: 3px solid red; display: block; width:100%;">
@@ -282,7 +281,7 @@
     
 }
 
-function ShowModal(id,sess){
+    function ShowModal(id,sess){
     $('.showSeat').attr('disabled', true);
     $("#modal-body").html("");
     var html = "";
@@ -306,6 +305,7 @@ function ShowModal(id,sess){
 
 }
 </script>
+
 <div class="modal fade" id="seatModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -321,5 +321,23 @@ function ShowModal(id,sess){
         </div>
       </div>
     </div>
+</div>
+
+<div class="modal" id= "loginModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-bodyy">
+        <input type="text" placeholder="Name">
+        <input type="text" placeholder="E-mail">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Login</button>
+      </div>
+    </div>
   </div>
+</div>
 </html>
