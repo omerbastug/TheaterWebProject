@@ -45,7 +45,7 @@ CREATE TABLE `person` (
 insert  into `person`(`id`,`name`,`surname`,`email`) values 
 (1,'Omer','Bastug','omer@gmail.com'),
 (2,'Yusuf','Selvi','yusuf@gmail.com'),
-(3,'Mark','White','changed@email.com'),
+(3,'Mark','White','mark@gmail.com'),
 (4,'Sarah','Clarkson','sarah@gmail.com'),
 (5,'NEW','person','newperson@gmail.com');
 
@@ -146,8 +146,13 @@ CREATE TABLE `ticketspurchased` (
 
 insert  into `ticketspurchased`(`id`,`session_id`,`seatRow`,`seatColumn`,`personID`) values 
 (1,2,1,2,4),
+(3,2,1,2,4),
 (4,2,3,4,1),
-(10,3,6,7,4);
+(5,2,3,4,1),
+(6,2,3,4,1),
+(7,2,3,4,1),
+(8,2,3,4,1),
+(9,2,3,4,1),
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
