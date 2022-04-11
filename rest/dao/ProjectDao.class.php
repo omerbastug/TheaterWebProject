@@ -59,6 +59,27 @@ class ProjectDao {
         $stmt->execute(['id' => $id]);
         echo "Deleted";
     } 
+    public function getSessionsInfo(){
+        $stmt = $this->conn->prepare("SELECT pl.name, ss.time, ss.ticketsAvailable, pl.durationMinutes, ss.theatre_id ,ss.id
+        FROM sessions as ss
+        JOIN play as pl on pl.id = ss.play_id;");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getTheatreRowColumn($id){
+        $stmt = $this->conn->prepare("SELECT numberofrows,numberofcolumn FROM theatre WHERE id =:id");
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function ticketsSold($ses_id){
+        $stmt = $this->conn->prepare("SELECT seatRow,seatColumn FROM ticketspurchased WHERE session_id =:id");
+        $stmt->execute(['id' => $ses_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function IsAperson($email){
+        $stmt = $this->conn->prepare("SELECT name FROM person WHERE email= :email;");
+        $stmt->execute(['email' => $email]);
 
     public function deleteByPlayID($id) {
         $stmt = $this->conn->prepare("DELETE FROM play WHERE id = :id");

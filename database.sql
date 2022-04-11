@@ -1,5 +1,5 @@
 /*
-SQLyog Trial v13.1.8 (64 bit)
+SQLyog Community v13.1.7 (64 bit)
 MySQL - 10.4.22-MariaDB : Database - cinemaproject
 *********************************************************************
 */
@@ -146,7 +146,6 @@ CREATE TABLE `ticketspurchased` (
 
 insert  into `ticketspurchased`(`id`,`session_id`,`seatRow`,`seatColumn`,`personID`) values 
 (1,2,1,2,4),
-(2,2,1,2,4),
 (3,2,1,2,4),
 (4,2,3,4,1),
 (5,2,3,4,1),
@@ -154,7 +153,6 @@ insert  into `ticketspurchased`(`id`,`session_id`,`seatRow`,`seatColumn`,`person
 (7,2,3,4,1),
 (8,2,3,4,1),
 (9,2,3,4,1),
-(10,3,6,7,4);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
