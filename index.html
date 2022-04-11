@@ -114,7 +114,9 @@
               </button>
             </div>
           </div>
+          <div id="userdiv">
           <button type="button" id="logintoggle" data-bs-toggle="modal" data-bs-target="#loginModal">LOGIN</button>
+          </div>
           <div style="width: 40vw; height: 40vw; margin: 10px auto;" id="sessions"> 
             <div class="spinner-border" role="status">
                 <span class="visually-hidden">Loading...</span>
@@ -262,50 +264,11 @@
     </body>
 <script src="js/jquery-3.6.0.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
-<script>
-    getSessions();
-    
-    function getSessions(){
-    $.get("rest/sessions", function(data){
-        var html ="";
-        for(let i=0;i<data.length;i++){
-            html += `<div style="border: 3px solid red; display: block; width:100%;">
-            <p>${data[i].name} at ${data[i].time}, ${data[i].durationMinutes}minutes long. 
-            tickets available: ${data[i].ticketsAvailable}</p>
-            <button class="button1" style="display: block;" onclick="ShowModal(${data[i].theatre_id},${data[i].id})">Show Seats</button>
-            </div>`;
-        }
-        $("#sessions").html(html);
-    });
+<script src="js/jquery.validate.min.js"></script>
+<script src="js/theatreProject.js"></script>
 
-    
-}
 
-    function ShowModal(id,sess){
-    $('.showSeat').attr('disabled', true);
-    $("#modal-body").html("");
-    var html = "";
-    $.get("rest/theatre/"+id, function(data){
-        for(let i = 0; i < data[0].numberofrows; i++){
-            html += `<p style="diplay: inline-block;"> ${i+1}</p>`
-            for(let j = 0; j < data[0].numberofcolumn;j++){
-                html+= `<button id="sr${i}sc${j}" style="diplay: inline-block; margin: 5px;" type="button" class="btn btn-primary">${j+1}</button>`;
-            }
-            html += `<br>`;
-        }
-        $.get("rest/ticketssold/"+sess, function(data){
-            for(let k = 0; k < data.length;k++){
-                $(`#sr${data[k].seatRow - 1}sc${data[k].seatColumn - 1}`).attr('disabled', true);
-            }
-        });
-        $(".modal-body").html(html);
-        $("#seatModal").modal("show");
-        $('.showSeat').attr('disabled',false);
-    });
-
-}
-</script>
-
+<!-- Seats Modal -->
 <div class="modal fade" id="seatModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -324,21 +287,42 @@
     </div>
 </div>
 
+<!-- Login Modal -->
 <div class="modal" id= "loginModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-bodyy">
-        <input type="text" placeholder="Name">
-        <input type="text" placeholder="E-mail">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Login</button>
-      </div>
+      <form id="loginForm">
+        <div class="modal-header">
+          <h5 class="modal-title">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-bodyy">
+          <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Email address</label>
+          <input name="email" type="email" class="form-control required email" id="emailInput" aria-describedby="emailHelp">
+          <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Name</label>
+          <input name="name" type="text" class="form-control required" id="nameInput">
+        </div>
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" id="exampleCheck1">
+          <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
+
+
+<script>
+  TheatreService.init();
+  TheatreService.list();
+</script>
+
 </html>

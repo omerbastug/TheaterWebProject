@@ -41,5 +41,11 @@ Flight::route('GET /theatre/@id',function($id){
 Flight::route('GET /ticketssold/@id',function($id){
     Flight::json(Flight::projectdao()->ticketsSold($id));
 });
+
+Flight::route('POST /isaperson/@email',function($email){
+    Flight::json(Flight::projectdao()->IsAperson($email));
+});
+
+
 Flight::start();
 ?>

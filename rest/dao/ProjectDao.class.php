@@ -62,9 +62,11 @@ class ProjectDao {
         $stmt->execute(['id' => $ses_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-
-}
+    public function IsAperson($email){
+        $stmt = $this->conn->prepare("SELECT name FROM person WHERE email= :email;");
+        $stmt->execute(['email' => $email]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);     
+    }
 }
 
 ?>
