@@ -1,6 +1,6 @@
 <?php
-require_once '../dao/TicketsDao.class.php';
-Flight::register('ticketsdao', 'TicketsDao');
+require_once '../services/TicketsService.class.php';
+Flight::register('ticketsdao', 'TicketsService');
 
 // Prints person Table
 Flight::route('GET /get/tickets', function(){

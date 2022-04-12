@@ -1,6 +1,6 @@
 <?php
-require_once '../dao/PersonDao.class.php';
-Flight::register('persondao', 'PersonDao');
+require_once '../services/PersonService.class.php';
+Flight::register('persondao', 'PersonService');
 
 // Prints person Table
 Flight::route('GET /get/person', function(){
@@ -10,7 +10,7 @@ Flight::route('GET /get/person', function(){
 Flight::route('GET /person/@id', function($id){
     Flight::json(Flight::persondao()->getByID($id));
   });
-  
+
 // Adds Person to person table
 Flight::route('POST /add/person', function(){
     Flight::json(Flight::persondao()->add(Flight::request()->data->getData()));

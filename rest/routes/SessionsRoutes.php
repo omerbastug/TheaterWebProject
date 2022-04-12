@@ -1,6 +1,6 @@
 <?php
-require_once '../dao/SessionsDao.class.php';
-Flight::register('sessionsdao', 'SessionsDao');
+require_once '../services/SessionsService.class.php';
+Flight::register('sessionsdao', 'SessionsService');
 
 // Prints person Table
 Flight::route('GET /get/sessions', function(){

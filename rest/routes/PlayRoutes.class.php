@@ -1,6 +1,6 @@
 <?php
-require_once '../dao/PlayDao.class.php';
-Flight::register('playdao', 'PlayDao');
+require_once '../services/PlayService.class.php';
+Flight::register('playdao', 'PlayService');
 
 // Prints person Table
 Flight::route('GET /get/play', function(){

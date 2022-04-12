@@ -1,6 +1,6 @@
 <?php
-require_once '../dao/TheatreDao.class.php';
-Flight::register('theatredao', 'TheatreDao');
+require_once '../services/TheatreService.class.php';
+Flight::register('theatredao', 'TheatreService');
 
 // Prints person Table
 Flight::route('GET /get/theatre', function(){
