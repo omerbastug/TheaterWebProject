@@ -1,14 +1,19 @@
 <?php
-require_once '../services/TicketsService.class.php';
+require_once 'C:\Bitnami\wampstack-8.1.2-0\apache2\htdocs\cinemaProject\rest\services\TicketsService.class.php';
 Flight::register('ticketsdao', 'TicketsService');
 
 // Prints person Table
 Flight::route('GET /get/tickets', function(){
     Flight::json(Flight::ticketsdao()->getAllFromTable());
 });
-Flight::route('GET /tickets/@id', function($id){
+
+Flight::route('GET /get/tickets/@id', function($id){
     Flight::json(Flight::ticketsdao()->getByID($id));
   });
+
+Flight::route('GET /get/ticketsbysess/@id', function($id){
+    Flight::json(Flight::ticketsdao()->getBysessID($id));
+});
 // Adds Person to person table
 Flight::route('POST /add/tickets', function(){
     Flight::json(Flight::ticketsdao()->add(Flight::request()->data->getData()));

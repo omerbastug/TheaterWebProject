@@ -1,5 +1,5 @@
 <?php
-require_once '../services/PersonService.class.php';
+require_once 'C:\Bitnami\wampstack-8.1.2-0\apache2\htdocs\cinemaProject\rest\services\PersonService.class.php';
 Flight::register('persondao', 'PersonService');
 
 // Prints person Table

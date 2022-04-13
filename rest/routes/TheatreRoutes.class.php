@@ -1,5 +1,5 @@
 <?php
-require_once '../services/TheatreService.class.php';
+require_once 'C:\Bitnami\wampstack-8.1.2-0\apache2\htdocs\cinemaProject\rest\services\TheatreService.class.php';
 Flight::register('theatredao', 'TheatreService');
 
 // Prints person Table

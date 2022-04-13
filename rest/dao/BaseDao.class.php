@@ -14,23 +14,22 @@ class BaseDao {
     }
 
     // get table
-    public function getAllFromTable($pe){
-        $stmt = $this->conn->prepare(`SELECT * FROM `.$this->table);
+    public function getAllFromTable(){
+        $stmt = $this->conn->prepare("SELECT * FROM ".$this->table);
         $stmt->execute();
-        return 
-        $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // get element from a table by id
     public function getByID($id){
-        $stmt = $this->conn->prepare(`SELECT * FROM `.$this->table.`WHERE id = :id`);
+        $stmt = $this->conn->prepare("SELECT * FROM ".$this->table."WHERE id = :id");
         $stmt->execute(['id' => $id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // delete by id
     public function deleteByID($id) {
-        $stmt = $this->conn->prepare(`DELETE FROM `.$this->table.` WHERE id = :id`);
+        $stmt = $this->conn->prepare("DELETE FROM ".$this->table." WHERE id = :id");
         $stmt->execute(['id' => $id]);
         echo "Deleted";
     } 
