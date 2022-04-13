@@ -6,7 +6,7 @@ Flight::register('theatredao', 'TheatreService');
 Flight::route('GET /get/theatre', function(){
     Flight::json(Flight::theatredao()->getAllFromTable());
 });
-Flight::route('GET /theatre/@id', function($id){
+Flight::route('GET /get/theatre/@id', function($id){
     Flight::json(Flight::theatredao()->getByID($id));
   });
 // Adds Person to person table
