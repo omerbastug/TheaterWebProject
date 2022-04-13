@@ -9,7 +9,7 @@ class TicketsDao extends BaseDao {
     }
 
     public function getBysessID($id){
-        return $this->query("SELECT * FROM ticketspurchased WHERE sess_id = :id",$id);
+        return $this->queryID("SELECT * FROM ticketspurchased WHERE session_id = :id",$id);
     }
 }
 ?>

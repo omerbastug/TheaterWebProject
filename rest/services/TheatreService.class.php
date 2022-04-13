@@ -7,6 +7,5 @@ class TheatreService extends BaseService{
   public function __construct(){
     parent::__construct(new TheatreDao());
   }
-
 }
 ?>

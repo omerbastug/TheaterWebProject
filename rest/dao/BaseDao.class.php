@@ -74,7 +74,11 @@ class BaseDao {
         $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
+    protected function queryID($query, $id){
+      $stmt = $this->conn->prepare($query);
+      $stmt->execute(['id'=>$id]);
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
 }
 
 

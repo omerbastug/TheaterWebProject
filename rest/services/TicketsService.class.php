@@ -8,5 +8,8 @@ class TicketsService extends BaseService{
     parent::__construct(new TicketsDao());
   }
 
+  public function getBysessID($id){
+    return $this->dao->getBysessID($id);
+  }
 }
 ?>
