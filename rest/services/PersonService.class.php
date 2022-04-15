@@ -7,6 +7,8 @@ class PersonService extends BaseService{
   public function __construct(){
     parent::__construct(new PersonDao());
   }
-
+  public function isAperson($email){
+    return $this->dao->isAperson($email);
+  }
 }
 ?>

@@ -7,10 +7,13 @@ Flight::route('GET /get/person', function(){
     Flight::json(Flight::persondao()->getAllFromTable());
 });
 
-Flight::route('GET /person/@id', function($id){
+Flight::route('GET /get/person/@id', function($id){
     Flight::json(Flight::persondao()->getByID($id));
   });
 
+Flight::route('GET /get/isaperson/@email', function($email){
+   Flight::json(Flight::persondao()->IsAperson($email));
+ });
 // Adds Person to person table
 Flight::route('POST /add/person', function(){
     Flight::json(Flight::persondao()->add(Flight::request()->data->getData()));
@@ -25,5 +28,6 @@ Flight::route('PUT /update/person/@id', function($id){
 Flight::route('PUT /delete/person/@id', function($id){
     Flight::persondao()->deleteByID($id);
 });
+
 
 ?>
