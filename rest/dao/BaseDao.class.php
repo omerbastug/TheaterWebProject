@@ -1,18 +1,21 @@
 <?php 
+require_once __DIR__.'/../Config.class.php';
 class BaseDao {
     protected $conn;
     protected $table;
-    public function __construct($table){
-        $this->table = $table;
-        $servername = "localhost";
-        $username = "newuser";
-        $password = "admin";
-        $database = "cinemaproject";
-        $this->conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
-        // set the PDO error mode to exception
-        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    }
 
+    public function __construct($table){
+      $this->table = $table;
+      $servername = Config::DB_HOST();
+      $username = Config::DB_USERNAME();
+      $password = Config::DB_PASSWORD();
+      $schema = Config::DB_SCHEME();
+      $port = Config::DB_PORT();
+      $this->conn = new PDO("mysql:host=$servername;dbname=$schema;port=$port", $username, $password);
+      // set the PDO error mode to exception
+      $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    } 
+    
     // get table
     public function getAllFromTable(){
         $stmt = $this->conn->prepare("SELECT * FROM ".$this->table);

@@ -17,7 +17,7 @@ class PersonDao extends BaseDao {
     }
 
     public function IsAperson($email){
-        $stmt = $this->conn->prepare("SELECT name,id FROM person WHERE email= :email ");
+        $stmt = $this->conn->prepare("SELECT * FROM person WHERE email= :email ");
         $stmt->execute(['email' => $email]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } 

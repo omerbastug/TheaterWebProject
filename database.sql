@@ -37,17 +37,19 @@ CREATE TABLE `person` (
   `name` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `surname` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` text COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `person` */
 
-insert  into `person`(`id`,`name`,`surname`,`email`) values 
-(1,'Omer','Bastug','omer@gmail.com'),
-(2,'Yusuf','Selvi','yusuf@gmail.com'),
-(3,'Mark','White','mark@gmail.com'),
-(4,'Sarah','Clarkson','sarah@gmail.com'),
-(5,'NEW','person','newperson@gmail.com');
+insert  into `person`(`id`,`name`,`surname`,`email`,`password`) values 
+(1,'Omer','Bastug','omer@gmail.com','123'),
+(2,'Yusuf','Selvi','yusuf@gmail.com','456'),
+(3,'Mark','White','changed@email.com','123456'),
+(4,'Sarah','Clarkson','sarah@gmail.com','000'),
+(5,'NEW','person','newperson@gmail.com','000'),
+(6,'ihsan','senel','ihsan@senel.com','ihsan123');
 
 /*Table structure for table `play` */
 
@@ -140,19 +142,36 @@ CREATE TABLE `ticketspurchased` (
   `seatColumn` int(11) NOT NULL,
   `personID` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `ticketspurchased` */
 
 insert  into `ticketspurchased`(`id`,`session_id`,`seatRow`,`seatColumn`,`personID`) values 
 (1,2,1,2,4),
-(3,2,1,2,4),
 (4,2,3,4,1),
-(5,2,3,4,1),
-(6,2,3,4,1),
-(7,2,3,4,1),
-(8,2,3,4,1),
-(9,2,3,4,1),
+(10,3,6,7,4),
+(11,1,5,3,1),
+(12,1,4,3,1),
+(13,1,3,3,1),
+(14,1,3,2,1),
+(15,1,3,1,1),
+(16,3,1,13,1),
+(17,3,1,13,1),
+(18,1,1,1,1),
+(19,1,3,9,2),
+(20,1,1,8,1),
+(21,3,2,10,1),
+(22,3,9,10,1),
+(23,3,2,6,1),
+(24,1,2,1,1),
+(25,3,2,1,1),
+(26,3,2,13,1),
+(27,3,1,11,1),
+(28,3,2,4,1),
+(29,3,2,5,1),
+(30,1,1,9,1),
+(31,1,1,7,1),
+(32,1,8,8,1);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
