@@ -30,10 +30,10 @@ Flight::route('/*', function(){
     }
   });
 
-require_once 'C:\Bitnami\wampstack-8.1.2-0\apache2\htdocs\cinemaProject\rest\routes\PersonRoutes.php';
-require_once 'C:\Bitnami\wampstack-8.1.2-0\apache2\htdocs\cinemaProject\rest\routes\SessionsRoutes.php';
-require_once 'C:\Bitnami\wampstack-8.1.2-0\apache2\htdocs\cinemaProject\rest\routes\TicketsRoutes.class.php';
-require_once 'C:\Bitnami\wampstack-8.1.2-0\apache2\htdocs\cinemaProject\rest\routes\TheatreRoutes.class.php';
+require_once __DIR__.'\routes\PersonRoutes.php';
+require_once __DIR__.'\routes\SessionsRoutes.php';
+require_once __DIR__.'\routes\TicketsRoutes.class.php';
+require_once __DIR__.'\routes\TheatreRoutes.class.php';
 
 Flight::start();
 ?>
