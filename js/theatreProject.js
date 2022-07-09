@@ -9,11 +9,16 @@ var TheatreService = {
             success: function(data) {
                 var html = "";
                 for(let i=0;i<data.length;i++){
-                    html += `<div style="border: 3px solid red; display: block; width:100%;">
-                    <p>${data[i].name} at ${data[i].time}, ${data[i].durationMinutes}minutes long. 
-                    tickets available: ${data[i].ticketsAvailable}</p>
-                    <button class="button1 showSeat" style="display: block;" onclick="TheatreService.showSeats(${data[i].theatre_id},${data[i].id})">Show Seats</button>
-                    </div>`;
+                    html += `
+                    <a  href="play.html?id=${data[i].play_id}&sess_id=${data[i].id}&t_id=${data[i].theatre_id}" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">${data[i].name}</h5>
+                            <small></small>
+                        </div>
+                        <p class="mb-1">Date : ${data[i].time}</p>
+                        <small>${data[i].durationMinutes} minutes long.</small>
+                    </a>`
+                    ;
                 };
                 $("#sessions").html(html);
             },
@@ -22,50 +27,6 @@ var TheatreService = {
               loginService.logout();
             }
          });
-    },
-    showSeats: function(id,sess){
-        $('.showSeat').attr('disabled', true);
-        $(".modal-body").html('<div class="spinner-border" role="status"> <span class="visually-hidden">Loading...</span> </div>');
-        $("#seatModal").modal("show");
-        var html = "";
-        jwttokennn = localStorage.getItem('token');
-        $.ajax({
-            url: `rest/get/theatre/${id}`,
-            type: "GET",
-            beforeSend: function(xhr){xhr.setRequestHeader('Authorization', jwttokennn);},
-            success: function(data){
-                for(let i = 0; i < data[0].numberofrows; i++){
-                    html += `<p style="diplay: inline-block;"> ${i+1}</p>`
-                    for(let j = 0; j < data[0].numberofcolumn;j++){
-                        html+= `<button id="sr${i}sc${j}" style="diplay: inline-block; margin: 5px;" type="button" class="btn btn-primary" onclick="SelectSeat(${i},${j},${sess})">${j+1}</button>`;
-                    }
-                    html += `<br>`;
-                }
-                $.ajax({
-                    url: `rest/get/ticketsbysess/${sess}`,
-                    type: "GET",
-                    beforeSend: function(xhr){
-                    xhr.setRequestHeader('Authorization', jwttokennn);
-                    },
-                    success: function(data){
-                        for(let k = 0; k < data.length;k++){
-                            $(`#sr${data[k].seatRow - 1}sc${data[k].seatColumn - 1}`).attr('disabled', true);
-                            $(`#sr${data[k].seatRow - 1}sc${data[k].seatColumn - 1}`).css('background-color', "red");
-                        }
-                    },
-                    error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    toastr.error(XMLHttpRequest.responseJSON.message);
-                    loginService.logout();
-                    }
-                });
-                $(".modal-body").html(html);
-                $('.showSeat').attr('disabled',false);
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-            toastr.error(XMLHttpRequest.responseJSON.message);
-            loginService.logout();
-            }
-        });
     }
 }
 function SelectSeat(row, col, session){
@@ -120,3 +81,11 @@ function showPurchaseModal(row,col,sess){
     });
 }
 
+// <div style="border: 3px solid red; display: block; width:100%;">
+//                     <p>${data[i].name} at ${data[i].time}, ${data[i].durationMinutes}minutes long. 
+//                     tickets available: ${data[i].ticketsAvailable}</p>
+//                         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+//                             <button type="button" class="btn btn-light" onclick="TheatreService.showSeats(${data[i].theatre_id},${data[i].id})">Show Seats</button>
+//                             <button type="button" class="btn btn-info" onclick=""><a href="play.html?id=${data[i].play_id}">Info</a></button>
+//                         </div>
+//                     </div>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/playsService.js"></script>
+    
+</head>
+<body>
+    <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Threater Project</a>
+        <!-- <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search"> -->
+        <div class="navbar-nav">
+          <div class="nav-item text-nowrap">
+            <a class="nav-link px-3" href="#" onclick="loginService.logout()">Sign out</a>
+          </div>
+        </div>
+      </header>
+      <div class="container d-flex flex-wrap  align-items-center">
+        <div id="session_info" class="container align-items-center" style="display: inline-block;">
+        </div>
+      </div>  
+
+        
+      </div>
+      <script>
+        let id = getQuerystring("id");
+        let sess_id = getQuerystring("sess_id");
+        let theatre_id = getQuerystring("t_id");
+        let info = PlayService.info(id);
+        console.log(info)
+        var html = `
+          <div style="display : inline-block;" class="top">
+            <img src="https://picsum.photos/400/500" class="img-fluid" alt="random image">
+            <div class="play-name">${info.name}</div>
+            <div class="play-author">${info.author}</div>
+            <div class="play-description">${info.asd}</div>
+            <div class="play-duration">${info.durationMinutes}</div>
+            <button type="button" class="btn btn-light" onclick="PlayService.showSeats(${theatre_id},${sess_id})">Show Seats</button>
+          </div>
+          `;
+
+        html += `<div style="display : inline-block;">`;
+        jwttokennn = localStorage.getItem('token');
+        let sold;
+        $.ajax({
+            async: false,
+            url: `rest/get/ticketsbysess/${sess_id}`,
+            type: "GET",
+            beforeSend: function(xhr){
+            xhr.setRequestHeader('Authorization', jwttokennn);
+            },
+            success: function(data){
+                sold = data;
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+            toastr.error(XMLHttpRequest.responseJSON.message);
+            loginService.logout();
+            }
+        });
+        $.ajax({
+            async: false,
+            url: `rest/get/theatre/${theatre_id}`,
+            type: "GET",
+            beforeSend: function(xhr){xhr.setRequestHeader('Authorization', jwttokennn);},
+            success: function(data){
+                for(let i = 0; i < data.numberofrows; i++){
+                    html += `<p style="diplay: inline-block;"> ${i+1}</p>`
+                    for(let j = 0; j < data.numberofcolumn;j++){
+                        var hasMatch =false;
+                        for (var index = 0; index < sold.length; ++index) {
+                            var item = sold[index];
+                            if(item.seat == i+","+j){
+                            hasMatch = true;
+                            break;
+                            }
+                        }
+                        if(hasMatch){
+                            html+= `<button disabled style="diplay: inline-block; margin: 5px;" type="button" class="btn btn-danger" onclick="SelectSeat(${i},${j},${sess_id})">${j+1}</button>`;
+                        } else {
+                            html+= `<button style="diplay: inline-block; margin: 5px;" type="button" class="btn btn-primary" onclick="SelectSeat(${i},${j},${sess_id})">${j+1}</button>`;
+                        }
+                    }
+                    html += `<br>`;
+                }
+                html += "</div>";
+                $("#session_info").html(html);
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+            toastr.error(XMLHttpRequest.responseJSON.message);
+            loginService.logout();
+            }
+        });
+      </script>
+</body>
+<!-- Seats Modal -->
+<div class="modal fade" id="seatModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Select a Seat</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>      
+</html>

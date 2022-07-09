@@ -43,7 +43,7 @@
               <form id="loginform">
                 <!-- Email input -->
                 <div class="form-outline mb-4">
-                  <input type="email" name="email" class="form-control" id="form3Example3" class="form-control form-control-lg"
+                  <input type="email" name="email" id="form3Example3" class="form-control form-control-lg"
                     placeholder="Enter a valid email address" />
                   <label class="form-label" for="form3Example3">Email address</label>
                 </div>
@@ -59,7 +59,7 @@
                   <button id="submitbtnnn" type="submit" class="btn btn-primary btn-lg"
                     style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
                   <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="#!"
-                      class="link-danger">Register</a></p>
+                      class="link-danger" onclick="window.location.replace('register.html')">Register</a></p>
                 </div>
 
               </form>
@@ -67,6 +67,8 @@
           </div>
         </div>
       </section>
+
+</body>
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/jquery-3.6.0.min.js"></script>
 <script src="js/jquery.validate.min.js"></script>
@@ -75,5 +77,4 @@
 <script>
     loginService.init();
 </script>   
-</body>
 </html>
