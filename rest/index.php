@@ -35,11 +35,11 @@ Flight::route('GET /docs.json', function(){
   echo $openapi->toJson();
 });
 
-require_once 'C:\Bitnami\wampstack-8.1.2-0\apache2\htdocs\cinemaProject\rest\routes\PersonRoutes.php';
-require_once 'C:\Bitnami\wampstack-8.1.2-0\apache2\htdocs\cinemaProject\rest\routes\SessionsRoutes.php';
-require_once 'C:\Bitnami\wampstack-8.1.2-0\apache2\htdocs\cinemaProject\rest\routes\TicketsRoutes.php';
-require_once 'C:\Bitnami\wampstack-8.1.2-0\apache2\htdocs\cinemaProject\rest\routes\TheatreRoutes.php';
-require_once 'C:\Bitnami\wampstack-8.1.2-0\apache2\htdocs\cinemaProject\rest\routes\PlayRoutes.php';
+require_once __DIR__.'\routes\PersonRoutes.php';
+require_once __DIR__.'\routes\SessionsRoutes.php';
+require_once __DIR__.'\routes\TicketsRoutes.php';
+require_once __DIR__.'\routes\TheatreRoutes.php';
+require_once __DIR__.'\routes\PlayRoutes.php';
 
 Flight::start();
 ?>
