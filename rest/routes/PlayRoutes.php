@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__.'../services/PlayService.class.php';
+require_once __DIR__.'/../services/PlayService.class.php';
 Flight::register('playdao', 'PlayService');
 
 /**

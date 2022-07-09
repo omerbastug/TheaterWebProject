@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__.'../services/PersonService.class.php';
+require_once __DIR__.'/../services/PersonService.class.php';
 require_once __DIR__.'/../Config.class.php';
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;

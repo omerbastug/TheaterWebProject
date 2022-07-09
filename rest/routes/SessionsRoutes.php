@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__.'../services/SessionsService.class.php';
+require_once __DIR__.'/../services/SessionsService.class.php';
 Flight::register('sessionsdao', 'SessionsService');
 /**
  * @OA\Get(path="/get/sessions", tags={"sessions"}, security={{"ApiKeyAuth": {}}},

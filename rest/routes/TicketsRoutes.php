@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__.'../services/TicketsService.class.php';
+require_once __DIR__.'/../services/TicketsService.class.php';
 Flight::register('ticketsService', 'TicketsService');
 
 /**
