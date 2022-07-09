@@ -95,22 +95,7 @@ Flight::route('PUT /update/tickets/@id', function($id){
     Flight::ticketsService()->update($id, Flight::request()->data->getData());
 });
 
-/**
-* @OA\DELETE(
-*     path="/delete/tickets/{id}", security={{"ApiKeyAuth": {}}},
-*     description="Delete ticket",
-*     tags={"tickets"},
-*     @OA\Parameter(in="path", name="id", example=1, description="Ticket ID"),
-*     @OA\Response(
-*         response=200,
-*         description="Ticket that has been deleted"
-*     ),
-*     @OA\Response(
-*         response=500,
-*         description="Error"
-*     )
-* )
-*/
+
 // Deletes person by id
 Flight::route('PUT /delete/tickets/@id', function($id){
     Flight::ticketsService()->deleteByID($id);

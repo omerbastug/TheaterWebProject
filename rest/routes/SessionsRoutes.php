@@ -87,22 +87,7 @@ Flight::route('PUT /update/sessions/@id', function($id){
     Flight::sessionsdao()->update($id, Flight::request()->data->getData());
 });
 
-/**
-* @OA\DELETE(
-*     path="/delete/sessions/{id}", security={{"ApiKeyAuth": {}}},
-*     description="Delete session",
-*     tags={"sessions"},
-*     @OA\Parameter(in="path", name="id", example=1, description="Session ID"),
-*     @OA\Response(
-*         response=200,
-*         description="Session that has been deleted"
-*     ),    
-*     @OA\Response(
-*         response=500,
-*         description="Error"
-*     )
-* )
-*/
+
 // Deletes person by id
 Flight::route('PUT /delete/sessions/@id', function($id){
     Flight::sessionsdao()->deleteByID($id);
