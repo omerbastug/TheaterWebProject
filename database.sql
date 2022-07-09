@@ -16,30 +16,7 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`cinemaproject` /*!40100 DEFAULT CHARACT
 
 USE `cinemaproject`;
 
-/*Table structure for table `charachter:actor` */
-
-DROP TABLE IF EXISTS `charachter:actor`;
-
-CREATE TABLE `charachter:actor` (
-  `play_id` int(11) NOT NULL,
-  `charachter` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `actor_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 /*Data for the table `charachter:actor` */
-
-/*Table structure for table `person` */
-
-DROP TABLE IF EXISTS `person`;
-
-CREATE TABLE `person` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `surname` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `person` */
 
@@ -49,37 +26,22 @@ insert  into `person`(`id`,`name`,`surname`,`email`,`password`) values
 (3,'Mark','White','changed@email.com','123456'),
 (4,'Sarah','Clarkson','sarah@gmail.com','000'),
 (5,'NEW','person','newperson@gmail.com','000'),
-(6,'ihsan','senel','ihsan@senel.com','ihsan123');
-
-/*Table structure for table `play` */
-
-DROP TABLE IF EXISTS `play`;
-
-CREATE TABLE `play` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `author` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `durationMinutes` int(11) NOT NULL,
-  `asd` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+(6,'ihsan','senel','ihsan@senel.com','ihsan123'),
+(7,'Post','request','post@request.com','pwd'),
+(8,'new','request','post@request.com','pwd'),
+(9,'Ömer','Baştuğ','bomersami@gmail.com','123'),
+(10,'Test','123','test@124.com','123'),
+(11,'Ömer','Baştuğ','bomersami@gmail.com','12213'),
+(12,'Adam','Sandler','adam@sandler.com','123'),
+(13,'Name ','Surname','name@surname.com','12345'),
+(14,'1','','asda@asdas.com','');
 
 /*Data for the table `play` */
 
-insert  into `play`(`id`,`name`,`author`,`durationMinutes`,`asd`) values 
+insert  into `play`(`id`,`name`,`author`,`durationMinutes`,`category`) values 
 (1,'Pamuk Prenses','Shakespeare',70,1),
 (2,'Keloglanin basi kel','Makif Ersoy',30,1),
 (3,'Nasreddin Hoca 5Head','Semseddin hoca',2,1);
-
-/*Table structure for table `roles` */
-
-DROP TABLE IF EXISTS `roles`;
-
-CREATE TABLE `roles` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `role` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `roles` */
 
@@ -88,39 +50,12 @@ insert  into `roles`(`id`,`role`) values
 (2,'Client'),
 (3,'Cleaner');
 
-/*Table structure for table `sessions` */
-
-DROP TABLE IF EXISTS `sessions`;
-
-CREATE TABLE `sessions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `time` datetime NOT NULL,
-  `theatre_id` int(11) NOT NULL,
-  `ticketChecker` int(11) NOT NULL,
-  `cleaner` int(11) NOT NULL,
-  `ticketsAvailable` int(11) DEFAULT NULL,
-  `play_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`,`time`,`theatre_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 /*Data for the table `sessions` */
 
 insert  into `sessions`(`id`,`time`,`theatre_id`,`ticketChecker`,`cleaner`,`ticketsAvailable`,`play_id`) values 
-(1,'2022-03-25 11:00:00',3,15,20,NULL,1),
-(2,'2022-03-25 12:30:30',3,1,3,74,1),
+(1,'2022-03-25 11:00:00',3,15,20,NULL,3),
+(2,'2022-03-25 12:30:30',3,1,3,74,2),
 (3,'2022-03-30 11:30:30',2,2,4,142,3);
-
-/*Table structure for table `theatre` */
-
-DROP TABLE IF EXISTS `theatre`;
-
-CREATE TABLE `theatre` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `numberofrows` int(11) NOT NULL,
-  `numberofcolumn` int(11) NOT NULL,
-  `totalSeats` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `theatre` */
 
@@ -130,19 +65,6 @@ insert  into `theatre`(`id`,`numberofrows`,`numberofcolumn`,`totalSeats`) values
 (3,9,9,81),
 (4,15,20,300),
 (5,15,20,292);
-
-/*Table structure for table `ticketspurchased` */
-
-DROP TABLE IF EXISTS `ticketspurchased`;
-
-CREATE TABLE `ticketspurchased` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `session_id` int(11) NOT NULL,
-  `seatRow` int(11) NOT NULL,
-  `seatColumn` int(11) NOT NULL,
-  `personID` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `ticketspurchased` */
 
@@ -171,7 +93,15 @@ insert  into `ticketspurchased`(`id`,`session_id`,`seatRow`,`seatColumn`,`person
 (29,3,2,5,1),
 (30,1,1,9,1),
 (31,1,1,7,1),
-(32,1,8,8,1);
+(32,1,8,8,1),
+(33,1,9,9,1),
+(34,3,5,7,1),
+(35,3,10,10,1),
+(36,1,6,6,1),
+(37,1,6,6,1),
+(38,1,6,6,9),
+(39,1,6,9,9),
+(40,1,6,10,9);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
