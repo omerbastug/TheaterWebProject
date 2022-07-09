@@ -97,7 +97,7 @@ Flight::route('PUT /update/play/@id', function($id){
 *     )
 * )
 */
-// Deletes person by id
+
 Flight::route('PUT /delete/play/@id', function($id){
     Flight::playdao()->deleteByID($id);
 });
