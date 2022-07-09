@@ -81,22 +81,6 @@ Flight::route('PUT /update/play/@id', function($id){
     Flight::playdao()->update($id, Flight::request()->data->getData());
 });
 
-// /**
-// * @OA\DELETE(
-// *     path="/delete/play/{id}", security={{"ApiKeyAuth": {}}},
-// *     description="Delete play",
-// *     tags={"play"},
-// *     @OA\Parameter(in="path", name="id", example=1, description="Play ID"),
-// *     @OA\Response(
-// *         response=200,
-// *         description="Play that has been deleted"
-// *     ),
-// *     @OA\Response(
-// *         response=500,
-// *         description="Error"
-// *     )
-// * )
-// */
 
 Flight::route('PUT /delete/play/@id', function($id){
     Flight::playdao()->deleteByID($id);
