@@ -96,7 +96,7 @@ Flight::route('PUT /update/sessions/@id', function($id){
 *     @OA\Response(
 *         response=200,
 *         description="Session that has been deleted"
-*     ),
+*     ),    
 *     @OA\Response(
 *         response=500,
 *         description="Error"

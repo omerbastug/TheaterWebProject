@@ -8,7 +8,7 @@ Flight::register('playdao', 'PlayService');
  *         @OA\Response( response=200, description="List of plays.")
  * )
  */
-// Prints play Table
+
 Flight::route('GET /get/play', function(){
     Flight::json(Flight::playdao()->getAllFromTable());
 });
@@ -47,7 +47,7 @@ Flight::route('GET /get/play/@id', function($id){
 *     )
 * )
 */
-// Adds Person to person table
+
 Flight::route('POST /add/play', function(){
     Flight::json(Flight::playdao()->add(Flight::request()->data->getData()));
 });
@@ -76,27 +76,27 @@ Flight::route('POST /add/play', function(){
 *     )
 * )
 */
-// Updates person
+
 Flight::route('PUT /update/play/@id', function($id){
     Flight::playdao()->update($id, Flight::request()->data->getData());
 });
 
-/**
-* @OA\DELETE(
-*     path="/delete/play/{id}", security={{"ApiKeyAuth": {}}},
-*     description="Delete play",
-*     tags={"play"},
-*     @OA\Parameter(in="path", name="id", example=1, description="Play ID"),
-*     @OA\Response(
-*         response=200,
-*         description="Play that has been deleted"
-*     ),
-*     @OA\Response(
-*         response=500,
-*         description="Error"
-*     )
-* )
-*/
+// /**
+// * @OA\DELETE(
+// *     path="/delete/play/{id}", security={{"ApiKeyAuth": {}}},
+// *     description="Delete play",
+// *     tags={"play"},
+// *     @OA\Parameter(in="path", name="id", example=1, description="Play ID"),
+// *     @OA\Response(
+// *         response=200,
+// *         description="Play that has been deleted"
+// *     ),
+// *     @OA\Response(
+// *         response=500,
+// *         description="Error"
+// *     )
+// * )
+// */
 
 Flight::route('PUT /delete/play/@id', function($id){
     Flight::playdao()->deleteByID($id);
