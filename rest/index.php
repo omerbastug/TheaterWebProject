@@ -3,7 +3,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once '../vendor/autoload.php';
-require_once __DIR__.'\routes\ApiSpec.php';
+require_once __DIR__.'/routes/ApiSpec.php';
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
@@ -35,11 +35,11 @@ Flight::route('GET /docs.json', function(){
   echo $openapi->toJson();
 });
 
-require_once __DIR__.'\routes\PersonRoutes.php';
-require_once __DIR__.'\routes\SessionsRoutes.php';
-require_once __DIR__.'\routes\TicketsRoutes.php';
-require_once __DIR__.'\routes\TheatreRoutes.php';
-require_once __DIR__.'\routes\PlayRoutes.php';
+require_once __DIR__.'/routes/PersonRoutes.php';
+require_once __DIR__.'/routes/SessionsRoutes.php';
+require_once __DIR__.'/routes/TicketsRoutes.php';
+require_once __DIR__.'/routes/TheatreRoutes.php';
+require_once __DIR__.'/routes/PlayRoutes.php';
 
 Flight::start();
 ?>
