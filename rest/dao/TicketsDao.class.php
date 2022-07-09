@@ -8,7 +8,7 @@ class TicketsDao extends BaseDao {
         parent::__construct("ticketspurchased");
     }
     public function getBysessID($id){
-        return $this->queryID("SELECT CONCAT(seatRow,\",\", seatColumn) as seat FROM ticketspurchased WHERE session_id = :id",$id);
+        return $this->queryID('SELECT CONCAT(seatRow,",", seatColumn) as seat FROM ticketspurchased WHERE session_id = :id',$id);
     }
     public function getSpecific($params){
         return $this->query("SELECT id  FROM ticketspurchased WHERE session_id = :sessid AND seatRow = :seatrow AND seatColumn = :seatcol",$params);
