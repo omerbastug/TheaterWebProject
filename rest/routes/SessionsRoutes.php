@@ -1,5 +1,5 @@
 <?php
-require_once 'C:\Bitnami\wampstack-8.1.2-0\apache2\htdocs\cinemaProject\rest\services\SessionsService.class.php';
+require_once __DIR__.'../services/SessionsService.class.php';
 Flight::register('sessionsdao', 'SessionsService');
 /**
  * @OA\Get(path="/get/sessions", tags={"sessions"}, security={{"ApiKeyAuth": {}}},

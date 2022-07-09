@@ -1,5 +1,5 @@
 <?php
-require_once 'C:\Bitnami\wampstack-8.1.2-0\apache2\htdocs\cinemaProject\rest\services\TicketsService.class.php';
+require_once __DIR__.'../services/TicketsService.class.php';
 Flight::register('ticketsService', 'TicketsService');
 
 /**
