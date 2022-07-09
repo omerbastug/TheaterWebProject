@@ -121,7 +121,7 @@ Flight::route('PUT /delete/person/@id', function($id){
     Flight::persondao()->deleteByID($id);
 });
 
- /**
+/**
 * @OA\POST(
 *     path="/login", 
 *     description="Add user",
