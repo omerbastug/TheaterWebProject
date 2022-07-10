@@ -103,4 +103,5 @@ function SelectSeat(row, col, session){
     }
     // <button type="button" class="btn btn-info" onclick="showPurchaseModal(${row+1},${col+1},${session})">Checkout</button>`);
     $("#seatModal").modal("hide");
+    $("#cartToast").toast("show");
 }

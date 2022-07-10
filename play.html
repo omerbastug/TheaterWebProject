@@ -29,6 +29,7 @@
     </div>
     <script>
         let id = getQuerystring("id");
+        let sess_id = getQuerystring("sess_id");
         let sess_date = getQuerystring("sess_date");
         sess_date = sess_date.replace("%20", " ");
         let theatre_id = getQuerystring("t_id");
@@ -47,7 +48,7 @@
                                 </div>
                                 <p class="lead">  ${playdata.description}</p>
                                 <div class="d-flex">
-                                    <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                                    <button class="btn btn-outline-dark flex-shrink-0" type="button" onclick=PlayService.showSeats(${sess_id},${theatre_id})>
                                         <i class="bi-cart-fill me-1"></i>
                                         Show seats
                                     </button>
@@ -57,34 +58,7 @@
                     </div>     
                 </section>`;
           $("#session_info").html(html);
-        // var html = `<div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="https://picsum.photos/600/700" alt="play image"></div>
-        //               <div class="col-md-6">
-        //                 <div class="small mb-1">Session id : ${sess_id}</div>
-        //                 <h1 class="display-5 fw-bolder">${info.name}</h1>
-        //                 <div class="fs-5 mb-5">
-        //                   <span>${play.author}</span>
-        //                 </div>
-        //                 <p class="lead">${play.asd} 
-        //                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium at dolorem quidem modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius blanditiis delectus ipsam minima ea iste laborum vero?</p>
-        //                 <div class="d-flex">
-        //                   <button class="btn btn-outline-dark flex-shrink-0" type="button">
-        //                     <i class="bi-cart-fill me-1"></i>
-        //                     Show Seats
-        //                   </button>
-        //                 </div>
-        //               </div>
-        //             </div>`;
-        //   $("#session_info").html(html);
-          // <div style="display : inline-block;" class="top">
-          //   <img src="https://picsum.photos/600/700" class="img-fluid" alt="random image">
-          //   <div class="play-name">${info.name}</div>
-          //   <div class="play-author">${info.author}</div>
-          //   <div class="play-description">${info.asd}</div>
-          //   <div class="play-duration">${info.durationMinutes}</div>
-          //   <button type="button" class="btn btn-light" onclick="PlayService.showSeats(${theatre_id},${sess_id})">Show Seats</button>
-          // </div>
       
-        // html += `<div style="display : inline-block;">`;
         // jwttokennn = localStorage.getItem('token');
         // let sold;
         // $.ajax({
@@ -155,5 +129,16 @@
       </div>
     </div>
   </div>
-</div>      
+</div> 
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+  <div id="cartToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <strong class="me-auto">Seat added to cart.</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <!-- <div class="toast-body">
+      
+    </div> -->
+  </div>
+</div>     
 </html>

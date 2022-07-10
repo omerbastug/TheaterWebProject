@@ -10,7 +10,7 @@ var TheatreService = {
                 var html = "";
                 for(let i=0;i<data.length;i++){
                     html += `
-                    <a  href="play.html?id=${data[i].play_id}&sess_date=${data[i].time}&t_id=${data[i].theatre_id}" class="list-group-item list-group-item-action">
+                    <a  href="play.html?id=${data[i].play_id}&sess_date=${data[i].time}&t_id=${data[i].theatre_id}&sess_id=${data[i].id}" class="list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">${data[i].name}</h5>
                             <small></small>
