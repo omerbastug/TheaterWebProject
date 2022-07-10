@@ -4,6 +4,7 @@ function getQuerystring(key) {
     for (var i = 0; i < vars.length; i++) {
         var pair = vars[i].split("=");
         if (pair[0] == key) {
+            console.log(pair);
             return pair[1];
         }
     }
@@ -11,40 +12,17 @@ function getQuerystring(key) {
 
 var PlayService = {
     info : function(id){
+        var play;
         $.ajax({
             url: `rest/get/play/${id}`,
             type: "GET",
+            async: false,
             timeout: 30000,
             beforeSend: function(xhr){
             xhr.setRequestHeader('Authorization', localStorage.getItem("token"));
             },
             success: function(data){
-                return data;
-                var html = `
-                <section class="py-5">
-                    <div class="container px-4 px-lg-5 my-5">
-                        <div class="row gx-4 gx-lg-5 align-items-center" >
-                            <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..."></div>
-                            <div class="col-md-6">
-                                <div class="small mb-1">${data.id}</div>
-                                <h1 class="display-5 fw-bolder">${data.name}</h1>
-                                <div class="fs-5 mb-5">
-                                    <span>${data.author}}</span>
-                                </div>
-                                <p class="lead">  Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium at dolorem quidem modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius blanditiis delectus ipsam minima ea iste laborum vero?</p>
-                                <div class="d-flex">
-                                    <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem">
-                                    <button class="btn btn-outline-dark flex-shrink-0" type="button">
-                                        <i class="bi-cart-fill me-1"></i>
-                                        Show seats
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>     
-                </section>`;
-                console.log(html);
-                $("#session_info").html(html);
+                play = data;
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
             toastr.error(XMLHttpRequest.responseJSON.message);
@@ -52,6 +30,7 @@ var PlayService = {
             console.log("error");
             }
         });
+        return play;
     },
     showSeats: function(id,sess){
         $('.showSeat').attr('disabled', true);

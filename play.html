@@ -29,7 +29,8 @@
     </div>
     <script>
         let id = getQuerystring("id");
-        let sess_id = getQuerystring("sess_id");
+        let sess_date = getQuerystring("sess_date");
+        sess_date = sess_date.replace("%20", " ");
         let theatre_id = getQuerystring("t_id");
         let playdata = PlayService.info(id);
         console.log(playdata);
@@ -39,12 +40,12 @@
                         <div class="row gx-4 gx-lg-5 align-items-center" >
                             <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="https://picsum.photos/600/700" alt="play image"></div>
                             <div class="col-md-6">
-                                <div class="small mb-1">${playdata.id}</div>
+                                <div class="small mb-1">Session date: ${sess_date}</div>
                                 <h1 class="display-5 fw-bolder">${playdata.name}</h1>
                                 <div class="fs-5 mb-5">
                                     <span>Author: ${playdata.author}</span>
                                 </div>
-                                <p class="lead">${playdata.description}</p>
+                                <p class="lead">  ${playdata.description}</p>
                                 <div class="d-flex">
                                     <button class="btn btn-outline-dark flex-shrink-0" type="button">
                                         <i class="bi-cart-fill me-1"></i>
@@ -55,7 +56,6 @@
                         </div>
                     </div>     
                 </section>`;
-          console.log(html);
           $("#session_info").html(html);
         // var html = `<div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="https://picsum.photos/600/700" alt="play image"></div>
         //               <div class="col-md-6">
