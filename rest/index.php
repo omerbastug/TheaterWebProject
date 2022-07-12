@@ -40,6 +40,7 @@ require_once __DIR__.'/routes/SessionsRoutes.php';
 require_once __DIR__.'/routes/TicketsRoutes.php';
 require_once __DIR__.'/routes/TheatreRoutes.php';
 require_once __DIR__.'/routes/PlayRoutes.php';
+require_once __DIR__.'/routes/PlayCategoryRoutes.php';
 
 Flight::start();
 ?>

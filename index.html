@@ -8,11 +8,46 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
 </head>
+<script src="js/jquery-3.6.0.min.js"></script>
 <script>
   var token = localStorage.getItem('token');
   if(!token){
     window.location.replace('login.html');
   }
+  var sessions;
+  var categories;
+  $.ajax({
+      url: "rest/get/sessions",
+      type: "GET",
+      async: false,
+      beforeSend: function(xhr){
+        xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+      },
+      success: function(data) {
+          sessions = data;
+          console.log(sessions);
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+        toastr.error(XMLHttpRequest.responseJSON.message);
+        loginService.logout();
+      }
+  });
+  $.ajax({
+    url: "rest/get/playcategory",
+    type: "GET",
+    async: false,
+    beforeSend: function(xhr){
+      xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+    },
+    success: function(data) {
+        categories = data;
+        console.log(categories);
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      toastr.error(XMLHttpRequest.responseJSON.message);
+      loginService.logout();
+    }
+  });
 </script>
 <body>
     
@@ -121,6 +156,9 @@
           <div id="tickets">
           
           </div>
+          <select id="categories" onchange="listcategory(value)" class="form-select" aria-label="Default select example">
+
+          </select>
 
           <div  class="list-group" id="sessions"> 
             <div class="spinner-border" role="status">
@@ -133,7 +171,7 @@
     
     
     </body>
-<script src="js/jquery-3.6.0.min.js"></script>
+
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/jquery.validate.min.js"></script>
 <script src="js/theatreProject.js"></script>

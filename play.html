@@ -58,57 +58,6 @@
                     </div>     
                 </section>`;
           $("#session_info").html(html);
-      
-        // jwttokennn = localStorage.getItem('token');
-        // let sold;
-        // $.ajax({
-        //     async: false,
-        //     url: `rest/get/ticketsbysess/${sess_id}`,
-        //     type: "GET",
-        //     beforeSend: function(xhr){
-        //     xhr.setRequestHeader('Authorization', jwttokennn);
-        //     },
-        //     success: function(playdata){
-        //         sold = playdata;
-        //     },
-        //     error: function(XMLHttpRequest, textStatus, errorThrown) {
-        //     toastr.error(XMLHttpRequest.responseJSON.message);
-        //     loginService.logout();
-        //     }
-        // });
-        // $.ajax({
-        //     async: false,
-        //     url: `rest/get/theatre/${theatre_id}`,
-        //     type: "GET",
-        //     beforeSend: function(xhr){xhr.setRequestHeader('Authorization', jwttokennn);},
-        //     success: function(playdata){
-        //         for(let i = 0; i < playdata.numberofrows; i++){
-        //             html += `<p style="diplay: inline-block;"> ${i+1}</p>`
-        //             for(let j = 0; j < playdata.numberofcolumn;j++){
-        //                 var hasMatch =false;
-        //                 for (var index = 0; index < sold.length; ++index) {
-        //                     var item = sold[index];
-        //                     if(item.seat == i+","+j){
-        //                     hasMatch = true;
-        //                     break;
-        //                     }
-        //                 }
-        //                 if(hasMatch){
-        //                     html+= `<button disabled style="diplay: inline-block; margin: 5px;" type="button" class="btn btn-danger" onclick="SelectSeat(${i},${j},${sess_id})">${j+1}</button>`;
-        //                 } else {
-        //                     html+= `<button style="diplay: inline-block; margin: 5px;" type="button" class="btn btn-primary" onclick="SelectSeat(${i},${j},${sess_id})">${j+1}</button>`;
-        //                 }
-        //             }
-        //             html += `<br>`;
-        //         }
-        //         html += "</div>";
-        //         //$("#session_info").html(html);
-        //     },
-        //     error: function(XMLHttpRequest, textStatus, errorThrown) {
-        //     toastr.error(XMLHttpRequest.responseJSON.message);
-        //     loginService.logout();
-        //     }
-        // });
       </script>
       
 </body>
