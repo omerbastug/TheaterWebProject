@@ -5,20 +5,21 @@ var TheatreService = {
             html+= `<option value="${categories[i].id}">${categories[i].name}</option>`;
         }
         $("#categories").html(html);
-        html = "";     
-        for(let i=0;i<Object.keys(sessions).length;i++){
-            html += `
-            <a  href="play.html?id=${sessions[i].play_id}&sess_date=${sessions[i].time}&t_id=${sessions[i].theatre_id}&sess_id=${sessions[i].id}" class="list-group-item list-group-item-action">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">${sessions[i].name}</h5>
-                    <small></small>
-                </div>
-                <p class="mb-1">Date : ${sessions[i].time}</p>
-                <small>${sessions[i].durationMinutes} minutes long.</small>
-            </a>`
-            ;
-        };
-        $("#sessions").html(html);
+        listcategory("Categories");
+        // html = "";     
+        // for(let i=0;i<Object.keys(sessions).length;i++){
+        //     html += `
+        //     <a  href="play.html?id=${sessions[i].play_id}&sess_date=${sessions[i].time}&t_id=${sessions[i].theatre_id}&sess_id=${sessions[i].id}" class="list-group-item list-group-item-action">
+        //         <div class="d-flex w-100 justify-content-between">
+        //             <h5 class="mb-1">${sessions[i].name}</h5>
+        //             <small></small>
+        //         </div>
+        //         <p class="mb-1">Date : ${sessions[i].time}</p>
+        //         <small>${sessions[i].durationMinutes} minutes long.</small>
+        //     </a>`
+        //     ;
+        // };
+        // $("#sessions").html(html);
         // $.ajax({
         //     url: "rest/get/sessions",
         //     type: "GET",
@@ -55,7 +56,24 @@ function SelectSeat(row, col, session){
     $("#seatModal").modal("hide");
 }
 function listcategory(value){
-    if(value == "Categories") return;
+    if(value == "Categories") {
+        var html;
+        html = "";     
+        for(let i=0;i<Object.keys(sessions).length;i++){
+            html += `
+            <a  href="play.html?id=${sessions[i].play_id}&sess_date=${sessions[i].time}&t_id=${sessions[i].theatre_id}&sess_id=${sessions[i].id}" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">${sessions[i].name}</h5>
+                    <small></small>
+                </div>
+                <p class="mb-1">Date : ${sessions[i].time}</p>
+                <small>${sessions[i].durationMinutes} minutes long.</small>
+            </a>`
+            ;
+        };
+        $("#sessions").html(html);
+        return;
+    };
     var html = "";     
     for(let i=0;i<Object.keys(sessions).length;i++){
             console.log(value+" "+sessions[i].category);
