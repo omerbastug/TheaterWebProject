@@ -146,7 +146,7 @@ function listPlays(){
                         <div class="col">
                             <div class="card h-100 ">
                             <a href="play.html?id=${plays[i].id}">
-                            <img src="https://picsum.photos/200" class="card-img-top" alt="...">
+                            <img src="images/play/${plays[i].id}.jpg" class="card-img-top" alt="...">
                             </a>
                             <div class="card-body">
                                 <h5 class="card-title">${plays[i].name}</h5>
@@ -171,7 +171,7 @@ function listPlays(){
                         <div class="col">
                             <div class="card h-100">
                             <a href="play.html?id=${plays[i].id}">
-                            <img src="https://picsum.photos/200" class="card-img-top" alt="...">
+                            <img src="images/play/${plays[i].id}.jpg" class="card-img-top" alt="...">
                             </a>
                             <div class="card-body">
                                 <h5 class="card-title">${plays[i].name}</h5>
@@ -194,7 +194,7 @@ function categorizePlays(value){
             <div class="col">
                 <div class="card h-100">
                 <a href="play.html?id=${plays[i].id}">
-                <img src="https://picsum.photos/200" class="card-img-top" alt="...">
+                <img src="images/play/${plays[i].id}.jpg" class="card-img-top" alt="...">
                 </a>
                 <div class="card-body">
                     <h5 class="card-title">${plays[i].name}</h5>
@@ -210,7 +210,7 @@ function categorizePlays(value){
                         <div class="col">
                             <div class="card h-100">
                             <a href="play.html?id=${plays[i].id}">
-                            <img src="https://picsum.photos/200" class="card-img-top" alt="...">
+                            <img src="images/play/${plays[i].id}.jpg" class="card-img-top" alt="...">
                             </a>
                             <div class="card-body">
                                 <h5 class="card-title">${plays[i].name}</h5>
