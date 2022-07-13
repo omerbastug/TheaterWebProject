@@ -1,53 +1,23 @@
 var TheatreService = {
     list : function(){
-        var html = "<option selected>Categories</option>"; 
+        var html=`<div  id="titlediv" class="d-flex justify-content-between  flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Sessions</h1>
+                    </div>
+                    <select id="categories" onchange="listcategory(value)" class="form-select" aria-label="Default select example">
+                    `;
+        
+        html += "<option selected>Categories</option>"; 
         for(let i = 0;i<Object.keys(categories).length;i++){
             html+= `<option value="${categories[i].id}">${categories[i].name}</option>`;
         }
-        $("#categories").html(html);
+        html += `</select>
+        <div  class="list-group" id="sessions"> 
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>`
+        $("#mainbody").html(html);
         listcategory("Categories");
-        // html = "";     
-        // for(let i=0;i<Object.keys(sessions).length;i++){
-        //     html += `
-        //     <a  href="play.html?id=${sessions[i].play_id}&sess_date=${sessions[i].time}&t_id=${sessions[i].theatre_id}&sess_id=${sessions[i].id}" class="list-group-item list-group-item-action">
-        //         <div class="d-flex w-100 justify-content-between">
-        //             <h5 class="mb-1">${sessions[i].name}</h5>
-        //             <small></small>
-        //         </div>
-        //         <p class="mb-1">Date : ${sessions[i].time}</p>
-        //         <small>${sessions[i].durationMinutes} minutes long.</small>
-        //     </a>`
-        //     ;
-        // };
-        // $("#sessions").html(html);
-        // $.ajax({
-        //     url: "rest/get/sessions",
-        //     type: "GET",
-        //     beforeSend: function(xhr){
-        //       xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
-        //     },
-        //     success: function(sessions) {
-        //         var html = "";
-                
-        //         for(let i=0;i<sessions.length;i++){
-        //             html += `
-        //             <a  href="play.html?id=${sessions[i].play_id}&sess_date=${sessions[i].time}&t_id=${sessions[i].theatre_id}&sess_id=${sessions[i].id}" class="list-group-item list-group-item-action">
-        //                 <div class="d-flex w-100 justify-content-between">
-        //                     <h5 class="mb-1">${sessions[i].name}</h5>
-        //                     <small></small>
-        //                 </div>
-        //                 <p class="mb-1">Date : ${sessions[i].time}</p>
-        //                 <small>${sessions[i].durationMinutes} minutes long.</small>
-        //             </a>`
-        //             ;
-        //         };
-        //         $("#sessions").html(html);
-        //     },
-        //     error: function(XMLHttpRequest, textStatus, errorThrown) {
-        //       toastr.error(XMLHttpRequest.responseJSON.message);
-        //       loginService.logout();
-        //     }
-        //  });
     }
 }
 function SelectSeat(row, col, session){
@@ -59,7 +29,7 @@ function listcategory(value){
     if(value == "Categories") {
         var html;
         html = "";     
-        for(let i=0;i<Object.keys(sessions).length;i++){
+        for(let i=0;i<Object.keys(sessions).length && i<10;i++){
             html += `
             <a  href="play.html?id=${sessions[i].play_id}&sess_date=${sessions[i].time}&t_id=${sessions[i].theatre_id}&sess_id=${sessions[i].id}" class="list-group-item list-group-item-action">
                 <div class="d-flex w-100 justify-content-between">
@@ -75,7 +45,7 @@ function listcategory(value){
         return;
     };
     var html = "";     
-    for(let i=0;i<Object.keys(sessions).length;i++){
+    for(let i=0;i<Object.keys(sessions).length && i<10;i++){
             console.log(value+" "+sessions[i].category);
             if(value==sessions[i].category){
                 console.log("match")
@@ -94,6 +64,7 @@ function listcategory(value){
     $("#sessions").html(html);
     console.log(value);
 }
+
 function showPurchaseModal(row,col,sess){
     $("#purchaseModal").modal("show");
     $("#loginForm").validate({
@@ -140,12 +111,115 @@ function showPurchaseModal(row,col,sess){
         }
     });
 }
+var plays;
+function listPlays(){
+    var loading = `
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>`;
+    $("#mainbody").html(loading);
 
-// <div style="border: 3px solid red; display: block; width:100%;">
-//                     <p>${sessions[i].name} at ${sessions[i].time}, ${sessions[i].durationMinutes}minutes long. 
-//                     tickets available: ${sessions[i].ticketsAvailable}</p>
-//                         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-//                             <button type="button" class="btn btn-light" onclick="TheatreService.showSeats(${sessions[i].theatre_id},${sessions[i].id})">Show Seats</button>
-//                             <button type="button" class="btn btn-info" onclick=""><a href="play.html?id=${sessions[i].play_id}">Info</a></button>
-//                         </div>
-//                     </div>
+    var html =` <div class="d-flex justify-content-between  flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Plays</h1>
+                </div>`;
+    html += `<select id="categories" onchange="categorizePlays(value)" class="form-select" aria-label="Default select example">
+                    <option selected>Categories</option>`; 
+    for(let i = 0;i<Object.keys(categories).length;i++){
+        html+= `<option value="${categories[i].id}">${categories[i].name}</option>`;
+    }
+    html += `</select> <br>`
+    if(plays == undefined){
+        $.ajax({
+            url: "rest/get/play",
+            type: "GET",
+            //async: false,
+            beforeSend: function(xhr){
+              xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+            },
+            success: function(data) {
+                plays = data;
+                html += `<div id="cardgroup" class="row row-cols-1 row-cols-md-3 g-4">`;
+                for(let i = 0;i<plays.length; i++){
+                    html += `
+                        <div class="col">
+                            <div class="card h-100 ">
+                            <a href="play.html?id=${plays[i].id}">
+                            <img src="https://picsum.photos/200" class="card-img-top" alt="...">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">${plays[i].name}</h5>
+                                <p class="card-text">${plays[i].author}</p>
+                            </div>
+                            </div>
+                        </div>`;
+                }
+                html += `</div>`
+                $("#mainbody").html(html);
+                console.log(plays);
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+              toastr.error(XMLHttpRequest.responseJSON.message);
+              loginService.logout();
+            }
+        });
+    } else {
+        html += `<div id="cardgroup" class="row row-cols-1 row-cols-md-3 g-4">`;
+                for(let i = 0;i<plays.length; i++){
+                    html += `
+                        <div class="col">
+                            <div class="card h-100">
+                            <a href="play.html?id=${plays[i].id}">
+                            <img src="https://picsum.photos/200" class="card-img-top" alt="...">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">${plays[i].name}</h5>
+                                <p class="card-text">${plays[i].author}</p>
+                            </div>
+                            </div>
+                        </div>`;
+                }
+                html += `</div>`
+                $("#mainbody").html(html);
+    }
+    
+    
+}
+function categorizePlays(value){
+    var html = "";
+    if(value == "Categories"){
+        for(let i = 0;i<plays.length; i++){
+            html += `
+            <div class="col">
+                <div class="card h-100">
+                <a href="play.html?id=${plays[i].id}">
+                <img src="https://picsum.photos/200" class="card-img-top" alt="...">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">${plays[i].name}</h5>
+                    <p class="card-text">${plays[i].author}</p>
+                </div>
+                </div>
+            </div>`;
+        }
+    } else {
+        for(let i = 0;i<plays.length; i++){
+            if(value == plays[i].category){
+                html += `
+                        <div class="col">
+                            <div class="card h-100">
+                            <a href="play.html?id=${plays[i].id}">
+                            <img src="https://picsum.photos/200" class="card-img-top" alt="...">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">${plays[i].name}</h5>
+                                <p class="card-text">${plays[i].author}</p>
+                            </div>
+                            </div>
+                        </div>`;
+        }
+        } 
+    }
+    $("#cardgroup").html(html);
+}

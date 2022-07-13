@@ -6,7 +6,7 @@ class SessionsDao extends BaseDao {
         parent::__construct("sessions");
     }
     public function getAllFromTable(){
-        $stmt = $this->conn->prepare("SELECT * FROM ".$this->table." as ss join play as pl where ss.play_id = pl.id");
+        $stmt = $this->conn->prepare("SELECT * FROM ".$this->table." as ss join play as pl where ss.play_id = pl.id ORDER BY ss.time");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
