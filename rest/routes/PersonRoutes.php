@@ -15,7 +15,16 @@ Flight::register('persondao', 'PersonService');
 Flight::route('GET /get/person', function(){
     Flight::json(Flight::persondao()->getAllFromTable());
 });
-
+/**
+ * @OA\Get(path="/get/person/actor", tags={"person"}, security={{"ApiKeyAuth": {}}},
+ *         summary="Return all user actors from the API. ",
+ *         @OA\Response( response=200, description="List of actors.")
+ * )
+ */
+// Prints person Table
+Flight::route('GET /get/person/actor', function(){
+  Flight::json(Flight::persondao()->getActors());
+});
 /**
  * @OA\Get(path="/get/person/{id}", tags={"person"}, security={{"ApiKeyAuth": {}}},
  *         @OA\Parameter(in="path", name="id", example=1, description="Id of person"),

@@ -10,5 +10,8 @@ class PersonService extends BaseService{
   public function isAperson($email){
     return $this->dao->isAperson($email);
   }
+  public function getActors(){
+    return $this->dao->getActors();
+  }
 }
 ?>

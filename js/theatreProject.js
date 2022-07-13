@@ -249,3 +249,77 @@ function categorizePlays(value){
     }
     $("#cardgroup").html(html);
 }
+var actors;
+function listActors(){
+    var loading = `
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>`;
+    var html = `<div class="d-flex justify-content-between  flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Actors </h1>
+</div><br>`;
+    $("#mainbody").html(loading);
+    if(actors == undefined){
+    $.ajax({
+        url: `rest/get/person/actor`,
+        type: "GET",
+        //async: false,
+        timeout: 30000,
+        beforeSend: function(xhr){
+        xhr.setRequestHeader('Authorization', localStorage.getItem("token"));
+        },
+        success: function(data){
+            actors = data;
+            console.log(actors);
+            html += `<div class="container">
+                            <div class="row">`;
+            for(let i= 0;i<actors.length;i++){
+                html += `<div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="our-team">
+                            <div class="picture">
+                                <img class="img-fluid" src="https://picsum.photos/130/130">
+                            </div>
+                            <div class="team-content">
+                                <h3 class="name">${actors[i].name + " " + actors[i].surname}</h3>
+                                <!-- <h4 class="title">${actors[i].role_id}</h4> -->
+                            </div>
+                            <ul class="social">
+                                <li><a href="mailto:${actors[i].email}" class="fa fa-envelope" aria-hidden="true"></a></li>
+                            </ul>
+                            </div>
+                        </div>`;
+            }
+            html += `</div></div>`;
+            $("#mainbody").html(html);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        toastr.error(XMLHttpRequest.responseJSON.message);
+        toastr.error('AJAX error', 'Inconceivable!');
+        console.log("error");
+        }
+    });} else {
+        html += `<div class="container">
+                            <div class="row">`;
+            for(let i= 0;i<actors.length;i++){
+                html += `<div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="our-team">
+                            <div class="picture">
+                                <img class="img-fluid" src="https://picsum.photos/130/130">
+                            </div>
+                            <div class="team-content">
+                                <h3 class="name">${actors[i].name + " " + actors[i].surname}</h3>
+                                <!-- <h4 class="title">${actors[i].role_id}</h4> -->
+                            </div>
+                            <ul class="social">
+                                <li><a href="mailto:${actors[i].email}" class="fa fa-envelope" aria-hidden="true"></a></li>
+                            </ul>
+                            </div>
+                        </div>`;
+            }
+            html += `</div></div>`;
+            $("#mainbody").html(html);
+    }
+    
+}

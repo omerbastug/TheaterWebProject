@@ -21,5 +21,10 @@ class PersonDao extends BaseDao {
         $stmt->execute(['email' => $email]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } 
+    public function getActors(){
+        $stmt = $this->conn->prepare("SELECT * FROM person WHERE role_id = 4 ");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } 
 }
 ?>
