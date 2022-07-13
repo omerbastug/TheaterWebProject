@@ -9,7 +9,12 @@
     <script src="js/jquery-3.6.0.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/playsService.js"></script>
-    
+    <style>
+      a {
+      text-decoration: none;
+      /*you can add your own color with : color: #FFF;*/
+      }
+    </style>
 </head>
 <body>
     <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
@@ -31,12 +36,13 @@
         let sess_id = getQuerystring("sess_id");
         let sess_date = getQuerystring("sess_date");
         var session;
+        let theatre_id = getQuerystring("t_id");
+        let playdata = PlayService.info(id);
         if (sess_date != undefined){
           sess_date = sess_date.replace("%20", " ");
           session = true;
+          localStorage.setItem('play',playdata);
         }
-        let theatre_id = getQuerystring("t_id");
-        let playdata = PlayService.info(id);
         console.log(playdata);
         var html = `
                 <section class="py-5">
@@ -55,11 +61,19 @@
                                 <p class="lead">  ${playdata.description}</p>`
                               if(session){
                               html+=`<div class="d-flex">
-                                        <button class="btn btn-outline-dark flex-shrink-0" type="button" onclick=PlayService.showSeats(${theatre_id},${sess_id})>
+                                        <button class="btn btn-outline-dark flex-shrink-0" type="button" 
+                                        onclick=PlayService.showSeats(${theatre_id},${sess_id})>
                                             <i class="bi-cart-fill me-1"></i>
                                             Show seats
                                         </button>
                                     </div>`;
+                              } else {
+                              html+=`<a href="index.html?id=${id}"><div class="d-flex">
+                                      <button class="btn btn-outline-dark flex-shrink-0" type="button" >
+                                          <i class="bi-cart-fill me-1"></i>
+                                          Show sessions
+                                      </button>
+                                  </div> </a>`;
                               }
                               html+=`
                             </div>
