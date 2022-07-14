@@ -212,6 +212,7 @@ function listPlays(){
     
     
 }
+
 function categorizePlays(value){
     var html = "";
     if(value == "Categories"){
@@ -249,6 +250,7 @@ function categorizePlays(value){
     }
     $("#cardgroup").html(html);
 }
+
 var actors;
 function listActors(){
     var loading = `
@@ -322,4 +324,144 @@ function listActors(){
             $("#mainbody").html(html);
     }
     
+}
+
+function showProfile(){
+    var loading = `
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>`;
+    $("#mainbody").html(loading);
+    $.ajax({
+        url: "rest/get/user",
+        type: "GET",
+        //async: false,
+        beforeSend: function(xhr){
+          xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+        },
+        success: function(data) {
+            var html  = ` <div class="container-xl px-4 mt-4">
+                            <hr class="mt-0 mb-4">
+                            <div class="row">
+                                <div class="col-xl-4">
+                                    <!-- Profile picture card-->
+                                    <div class="card mb-4 mb-xl-0">
+                                        <div class="card-header">Profile Picture</div>
+                                        <div class="card-body text-center">
+                                            <!-- Profile picture image-->
+                                            <img class="img-account-profile rounded-circle mb-2" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+                                            <!-- Profile picture help block-->
+                                            <div class="small font-italic  mb-4">This is BIO</div>
+                                            <!-- Profile picture upload button-->
+                                        <!-- <button class="btn btn-primary" type="button">Upload new image</button> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-8">
+                                    <!-- Account details card-->
+                                    <div class="card mb-4">
+                                        <div class="card-header">Account Details</div>
+                                        <div class="card-body">
+                                        <form id="profilePageForm">
+      
+                                            <div class="row">
+                                            <div class="col-md-6 mb-4">
+                            
+                                                <div class="form-outline">
+                                                <input type="text" name="name" id="firstName" class="form-control form-control-lg profileinput" value="${data.name}" />
+                                                <label class="form-label" for="firstName">Name</label>
+                                                </div>
+                            
+                                            </div>
+                                            <div class="col-md-6 mb-4">
+                            
+                                                <div class="form-outline">
+                                                <input type="text" name="surname" id="lastName" class="form-control form-control-lg profileinput" value="${data.surname}" />
+                                                <label class="form-label" for="lastName">Surname</label>
+                                                </div>
+                            
+                                            </div>
+                                            </div>
+                            
+                            
+                                            <div class="row">
+                                            <div class="col-md-6 mb-4 pb-2">
+                            
+                                                <div class="form-outline">
+                                                <input type="email" name="email" id="emailAddress" class="form-control form-control-lg profileinput" value="${data.email}"/>
+                                                <label class="form-label" for="emailAddress">Email</label>
+                                                </div>
+                            
+                                            </div>
+                                            <div class="col-md-6 mb-4 pb-2">
+                            
+                                                <div class="form-outline">
+                                                <input type="password" name="password" id="pwdinput" class="form-control form-control-lg profileinput" value="${data.password}"/>
+                                                <label class="form-label" for="password">Password</label>
+                                                </div>
+                            
+                                            </div>
+                                            </div>
+                            
+                            
+                                            <div id="profilebuttondiv" class="mt-4 pt-2">
+                                            <input id="profilebutton" class="btn btn-primary btn-lg" type="button" onclick="updateAccountDetails()" value="Update"/>
+                                            </div>
+                            
+                                        </form>   
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+            $("#mainbody").html(html);
+            $(".profileinput").prop("disabled",true);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+          toastr.error(XMLHttpRequest.responseJSON.message);
+          loginService.logout();
+        }
+    });
+    
+}
+function updateAccountDetails(){
+    $(".profileinput").attr("disabled",false);
+    $("#profilebutton").hide();
+    $("#profilePageForm").append(`<input id="updatebutton" class="btn btn-primary btn-lg" type="submit" value="Save Changes"/>
+    `);
+
+    $('#profilePageForm').validate({
+        submitHandler: function(formdata){
+            var entity = Object.fromEntries((new FormData(formdata)).entries());            
+            updateAjax(entity);
+        }
+    });
+
+}
+
+function updateAjax(entity){
+    $("#updatebutton").attr('disabled',true);
+    $.ajax({
+        url: 'rest/update/user',
+        type: 'PUT',
+        async: false,
+        beforeSend: function(xhr){
+            xhr.setRequestHeader('Authorization', localStorage.getItem("token"));
+            },
+        data: JSON.stringify(entity),
+        contentType: "application/json",
+        dataType: "json",
+        success: function() {
+          console.log("done");
+          showProfile();
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            $("#profilebutton").attr('disabled',false);
+            toastr.error(XMLHttpRequest.responseJSON.message);
+        }
+    });
+    showProfile();
+
 }

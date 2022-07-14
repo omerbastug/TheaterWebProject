@@ -35,6 +35,16 @@ Flight::route('GET /get/person/actor', function(){
 Flight::route('GET /get/person/@id', function($id){
     Flight::json(Flight::persondao()->getByID($id));
   });
+/**
+ * @OA\Get(path="/get/user/{id}", tags={"person"}, security={{"ApiKeyAuth": {}}},
+ *         @OA\Parameter(in="path", name="id", example=1, description="Id of person"),
+ *         summary="Return person with the ID from the API. ",
+ *         @OA\Response( response=200, description="Person's ID")
+ * )
+ */
+Flight::route('GET /get/user/', function(){
+  Flight::json(Flight::persondao()->getByID(Flight::get('user')['id']));
+});
 
 /**
  * @OA\Get(path="/get/isaperson/{email}", tags={"person"}, security={{"ApiKeyAuth": {}}},
@@ -107,6 +117,36 @@ Flight::route('POST /register', function(){
 // Updates person
 Flight::route('PUT /update/person/@id', function($id){
     Flight::persondao()->update($id, Flight::request()->data->getData());
+});
+
+/**
+* @OA\Put(
+*     path="/update/user", security={{"ApiKeyAuth": {}}},
+*     description="Update user",
+*     tags={"person"},
+*     @OA\Parameter(in="path", name="id", example=1, description="Person ID"),
+*     @OA\RequestBody(description="Basic person info", required=true,
+*       @OA\MediaType(mediaType="application/json",
+*    			@OA\Schema(
+*    				@OA\Property(property="name", type="string", example="Omer",	description="Name of person"),
+*    				@OA\Property(property="surname", type="string", example="Bastug",	description="Surname of person" ),
+*           @OA\Property(property="email", type="string", example="omerbastug@email.com",	description="Email" ),
+*           @OA\Property(property="password", type="string", example="omer123",	description="Password" ),
+*        )
+*     )),
+*     @OA\Response(
+*         response=200,
+*         description="Person that has been updated"
+*     ),
+*     @OA\Response(
+*         response=500,
+*         description="Error"
+*     )
+* )
+*/
+// Updates person
+Flight::route('PUT /update/user', function(){
+  Flight::persondao()->update(Flight::get('user')['id'], Flight::request()->data->getData());
 });
 
 /**

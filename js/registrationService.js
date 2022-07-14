@@ -3,6 +3,7 @@ var registrationService = {
         $('#registration_form').validate({
             submitHandler: function(formdata){
                 var entity = Object.fromEntries((new FormData(formdata)).entries());
+                entity.role_id = 2;
                 registrationService.register(entity);
             }
         })
