@@ -209,7 +209,11 @@ Flight::route('POST /login', function(){
       if($user[0]['password'] == $login['password']){
         unset($user[0]['password']);
         $jwt = JWT::encode($user[0], Config::JWT_SECRET(), 'HS256');
-        Flight::json(['token' => $jwt]);
+        if($user[0]['role_id']==5){
+          Flight::json(['token' => $jwt,'admin' => true]);
+        } else {
+          Flight::json(['token' => $jwt, 'admin' => false]);
+        }
       } else {
         Flight::json(["message" => "Wrong password"], 404);
       }

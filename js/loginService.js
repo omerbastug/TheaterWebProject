@@ -19,7 +19,12 @@ var loginService = {
             success: function(result) {
               console.log(result);
               localStorage.setItem("token", result.token);
-              window.location.replace("index.html");
+              if(!result.admin){
+                window.location.replace("index.html");
+              } else {
+                window.location.replace("rest/docs");
+              }
+              
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
                 $("#submitbtnnn").attr('disabled',false);
