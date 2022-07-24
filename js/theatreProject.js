@@ -218,7 +218,7 @@ function listPlays(){
             }
         });
     } else {
-        html += `<div id="cardgroup" class="row row-cols-1 row-cols-md-3 g-4">`;
+        html += `<div id="cardgroup" class="row row-cols-1 row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 g-4">`;
                 for(let i = 0;i<plays.length; i++){
                     html += `
                         <div class="col">
@@ -273,7 +273,14 @@ function categorizePlays(value){
         }
     } else if(value == "Favorites"){
         for(let i = 0;i<favorites.length; i++){
-            var index = favorites[i].play_id;
+            var id = favorites[i].play_id;
+            var index;
+            for(let j =0;j<plays.length; j++){
+                if(id == plays[j].id){
+                    index = j;
+                    break;
+                }
+            }
                 html += `
                 <div class="col">
                     <div class="card h-100">
