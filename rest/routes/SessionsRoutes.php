@@ -51,7 +51,11 @@ Flight::route('GET /sessions/@id', function($id){
 */
 // Adds Person to person table
 Flight::route('POST /add/sessions', function(){
-    Flight::json(Flight::sessionsdao()->add(Flight::request()->data->getData()));
+    $entity = Flight::request()->data->getData();
+    if(Flight::get('user')['role_id']==5){ // Admin Check
+        Flight::json(Flight::sessionsdao()->add($entity));
+      } else {
+        throw new Exception("Unauthorized");}
 });
 
 /**

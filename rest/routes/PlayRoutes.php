@@ -13,6 +13,20 @@ Flight::route('GET /get/play', function(){
     Flight::json(Flight::playdao()->getAllFromTable());
 });
 
+Flight::route('GET /get/favoriteplays', function(){
+  Flight::json(Flight::playdao()->favoritePlays(Flight::get('user')['id']));
+});
+
+Flight::route('POST /add/favoriteplay/@play_id', function($play_id){
+    $user_id = Flight::get('user')['id'];
+    Flight::json(Flight::playdao()->addFavorite($user_id, $play_id));
+});
+
+Flight::route('PUT /delete/favoriteplay/@id', function($id){
+  Flight::playdao()->deleteFavorite(Flight::get('user')['id'],$id);
+}); 
+
+
 /**
  * @OA\Get(path="/get/play/{id}", tags={"play"}, security={{"ApiKeyAuth": {}}},
  *         @OA\Parameter(in="path", name="id", example=1, description="Id of play"),
@@ -49,7 +63,13 @@ Flight::route('GET /get/play/@id', function($id){
 */
 
 Flight::route('POST /add/play', function(){
-    Flight::json(Flight::playdao()->add(Flight::request()->data->getData()));
+    $entity = Flight::request()->data->getData();
+    Flight::json(['sd'=>'sds']);
+    if(Flight::get('user')['role_id']==5){ // Admin Check
+        Flight::json(Flight::playdao()->add($entity));
+      } else {
+        throw new Exception("Unauthorized");
+      }
 });
 
 /**

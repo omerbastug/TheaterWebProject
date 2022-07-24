@@ -65,6 +65,41 @@ Flight::route('POST /add/tickets', function(){
 });
 
 /**
+* @OA\Post(
+*     path="/add/tickets/admin", 
+*     description="Add ticket",
+*     tags={"tickets"},
+*     @OA\RequestBody(description="Basic ticket info", required=true,
+*       @OA\MediaType(mediaType="application/json",
+*    			@OA\Schema(
+*    				@OA\Property(property="session_id", type="int", example=2,	description="ID of the session"),
+*    				@OA\Property(property="seatRow", type="int", example=3,	description="Seat Row" ),
+*                   @OA\Property(property="seatColumn", type="int", example=2,	description="Seat Column" ),
+*                   @OA\Property(property="personID", type="int", example=6,	description="Person id" ),
+*        )
+*     )),
+*     @OA\Response(
+*         response=200,
+*         description="Ticket has been added"
+*     ),
+*     @OA\Response(
+*         response=500,
+*         description="Error"
+*     )
+* )
+*/ 
+// Adds Person to person table
+Flight::route('POST /add/tickets/admin', function(){
+    $entity = Flight::request()->data->getData();
+    if(Flight::get('user')['role_id']==5){ // Admin Check
+        Flight::json(Flight::ticketsService()->add($entity));
+      } else {
+        throw new Exception("Unauthorized");}
+    //Flight::json(Flight::ticketsService()->addticket(Flight::get('user'),Flight::request()->data->getData()));
+});
+
+
+/**
 * @OA\Put(
 *     path="/update/tickets/{id}", security={{"ApiKeyAuth": {}}},
 *     description="Update ticket",

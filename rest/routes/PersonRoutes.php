@@ -83,7 +83,15 @@ Flight::route('GET /get/isaperson/@email', function($email){
 */
 // Adds Person to person table
 Flight::route('POST /add/person', function(){
-    Flight::json(Flight::persondao()->add(Flight::request()->data->getData()));
+    $entity = Flight::request()->data->getData();
+    if($entity['role_id']==2){
+      Flight::json(Flight::persondao()->add($entity));
+    } else if(Flight::get('user')['role_id']==5){ // Admin Check
+      Flight::json(Flight::persondao()->add($entity));
+    } else {
+      throw new Exception("Unauthorized");
+    }
+    
 });
 Flight::route('POST /register', function(){
     Flight::json(Flight::persondao()->add(Flight::request()->data->getData()));

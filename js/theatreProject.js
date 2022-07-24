@@ -138,6 +138,7 @@ function listcategory(value){
 //     });
 // }
 var plays;
+var favorites;
 function listPlays(){
     var loading = `
     <div class="d-flex justify-content-center">
@@ -146,7 +147,7 @@ function listPlays(){
         </div>
     </div>`;
     $("#mainbody").html(loading);
-
+    // main title
     var html =` <div class="d-flex justify-content-between  flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Plays</h1>
                 </div>`;
@@ -177,12 +178,37 @@ function listPlays(){
                             <div class="card-body">
                                 <h5 class="card-title">${plays[i].name}</h5>
                                 <p class="card-text">${plays[i].author}</p>
+                                <button id="fav_button${plays[i].id}" onclick="favoritePlay(${plays[i].id})" type="button" class="btn btn-light  position-absolute bottom-0 start-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+                                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"></path>
+                                    </svg>
+                                </button>
                             </div>
                             </div>
                         </div>`;
                 }
                 html += `</div>`
                 $("#mainbody").html(html);
+                $.ajax({
+                    url: "rest/get/favoriteplays",
+                    type: "GET",
+                    async: false,
+                    beforeSend: function(xhr){
+                      xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+                    },
+                    success: function(data) {
+                        favorites = data;
+                        for(let i = 0; i < favorites.length; i++){
+                            $("#fav_button"+favorites[i].play_id).removeClass("btn-light");
+                            $("#fav_button"+favorites[i].play_id).addClass("btn-warning");
+                        }
+                        console.log(favorites);
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                      toastr.error(XMLHttpRequest.responseJSON.message);
+                      loginService.logout();
+                    }
+                  });
                 console.log(plays);
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -202,12 +228,21 @@ function listPlays(){
                             <div class="card-body">
                                 <h5 class="card-title">${plays[i].name}</h5>
                                 <p class="card-text">${plays[i].author}</p>
+                                <button id="fav_button${plays[i].id}" onclick="favoritePlay(${plays[i].id})" type="button" class="btn btn-light  position-absolute bottom-0 start-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+                                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"></path>
+                                    </svg>
+                                </button>
                             </div>
                             </div>
                         </div>`;
                 }
-                html += `</div>`
+                html += `</div>`;
                 $("#mainbody").html(html);
+                for(let i = 0; i < favorites.length; i++){
+                    $("#fav_button"+favorites[i].play_id).removeClass("btn-light");
+                    $("#fav_button"+favorites[i].play_id).addClass("btn-warning");
+                }
     }
     
     
@@ -249,6 +284,56 @@ function categorizePlays(value){
         } 
     }
     $("#cardgroup").html(html);
+}
+
+function favoritePlay(play_id){
+    let fav = $("#fav_button"+play_id).hasClass("btn-light");
+    if(fav){ // add to favorites
+        $("#fav_button"+play_id).removeClass("btn-light");
+        $("#fav_button"+play_id).addClass("btn-warning");
+        $.ajax({
+            url: "rest/add/favoriteplay/"+play_id,
+            type: "POST",
+            //async: false,
+            beforeSend: function(xhr){
+              xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+            },
+            success: function() {
+                favorites.push({"play_id" : play_id});
+                console.log(favorites);
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+              toastr.error(XMLHttpRequest.responseJSON.message);
+              loginService.logout();
+            }
+          });
+    } else { // remove from favorites
+        $("#fav_button"+play_id).removeClass("btn-warning");
+        $("#fav_button"+play_id).addClass("btn-light");
+        var index;
+        for(let i = 0; i<favorites.length; i++){
+            if(favorites[i].play_id == play_id){ 
+                index = i;
+                break;
+            }
+        }
+        $.ajax({
+            url: "rest/delete/favoriteplay/"+play_id,
+            type: "PUT",
+            //async: false,
+            beforeSend: function(xhr){
+              xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+            },
+            success: function() {
+                favorites.splice(index,1);
+                console.log(favorites);
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+              toastr.error(XMLHttpRequest.responseJSON.message);
+              loginService.logout();
+            }
+          });
+    }
 }
 
 var actors;
@@ -453,7 +538,7 @@ function updateAjax(entity){
         data: JSON.stringify(entity),
         contentType: "application/json",
         dataType: "json",
-        success: function() {
+        success: function() {// doesnt work
           console.log("done");
           showProfile();
         },
@@ -463,5 +548,4 @@ function updateAjax(entity){
         }
     });
     showProfile();
-
 }
