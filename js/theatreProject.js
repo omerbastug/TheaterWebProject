@@ -602,7 +602,7 @@ function showCart(){
         </div>
     </div>`;
     $("#mainbody").html(loading);
-    
+    var seats = JSON.parse(localStorage.getItem("selected_seats"));
     var html = `
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -614,7 +614,7 @@ function showCart(){
                     <div id="cart_list" class="p-5">
                         <div class="d-flex justify-content-between align-items-center mb-5">
                         <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
-                        <h6 class="mb-0 text-muted">3 items</h6>
+                        <h6 class="mb-0 text-muted">${seats.length} seats</h6>
                         </div>
                         <hr class="my-4">
                     </div>
@@ -625,8 +625,8 @@ function showCart(){
                     <hr class="my-4">
 
                     <div class="d-flex justify-content-between mb-4">
-                        <h5 class="text-uppercase">items 3</h5>
-                        <h5>€ 132.00</h5>
+                        <h5 class="text-uppercase">${seats.length} seat(s)</h5>
+                        <h5>${seats.length * 10}KM</h5>
                     </div>
 
                     <h5 class="text-uppercase mb-3">Shipping</h5>
@@ -640,10 +640,10 @@ function showCart(){
 
                     <div class="d-flex justify-content-between mb-5">
                         <h5 class="text-uppercase">Total price</h5>
-                        <h5>€ 137.00</h5>
+                        <h5>${seats.length * 10}KM</h5>
                     </div>
 
-                    <button type="button" class="btn btn-dark btn-block btn-lg"
+                    <button type="button" onclick="purchaseticketsbulk()" class="btn btn-dark btn-block btn-lg"
                         data-mdb-ripple-color="dark">Purchase</button>
 
                     </div>
@@ -657,7 +657,7 @@ function showCart(){
     `;
     $("#mainbody").html(html);
     html = "";
-    var seats = JSON.parse(localStorage.getItem("selected_seats"));
+    
     if(seats.length==undefined) return;
     for(let i = 0; i<seats.length; i++){
         html ="";
@@ -694,12 +694,12 @@ function showCart(){
                             </div>
 
                             <div class="col-md-3 col-lg-3 col-xl-3 ">
-                                <h6 class="text-muted">Seat(s)</h6>
+                                <h6 class="text-muted">Seat</h6>
                                 <h6 id="cart_seats${seats[i].session_id}"class="text-black mb-0">[${seats[i].seat_row+1},${seats[i].seat_column+1}]</h6>
                             </div>
 
                             <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                <h6 class="mb-0">€ 44.00</h6>
+                                <h6 class="mb-0">10KM</h6>
                             </div>
                             <button type="button" onclick="deletecartlistitem(${i},${seats[i].session_id})" class="btn-close col-md-1 col-lg-1 col-xl-1 text-end" aria-label="Close"></button>
                         </div>
@@ -719,7 +719,25 @@ function deletecartlistitem(index,sesid){
     localStorage.setItem('selected_seats', JSON.stringify(seats));
     showCart();
 }
-
+function purchaseticketsbulk(){
+    $.ajax({
+        url: 'rest/bulkadd/tickets',
+        type: 'POST',
+        beforeSend: function(xhr){
+            xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+        },
+        data: localStorage.getItem("selected_seats"),
+        contentType: "application/json",
+        dataType: "json",
+        success: function(result) {
+        toastr.success("Purchased!");
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        toastr.error(XMLHttpRequest.responseJSON.message);
+        alert("Status: " + textStatus); alert("Error: " + errorThrown);
+        }
+    });
+}
 {/* <div class="d-flex justify-content-between align-items-center mb-5">
 <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
 <h6 class="mb-0 text-muted">3 items</h6>

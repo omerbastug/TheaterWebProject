@@ -18,5 +18,32 @@ class TicketsDao extends BaseDao {
         $stmt->execute(['id' => $id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } 
+    public function bulkAdd($bulk, $userid){
+        $bind = ["userid" => $userid];
+        $query = "INSERT INTO ticketspurchased
+        (
+        `session_id`, 
+        `seatRow`, 
+        `seatColumn`, 
+        `personID`
+        )
+        VALUES ";
+        for ($i = 0 ; $i < count($bulk); $i++){
+            $query.="
+            (
+            :session".$i.", 
+            :seatRow".$i.", 
+            :seatColumn".$i.", 
+            :userid
+            ),
+        ";
+        $bind += ["session".$i => $bulk[$i]["session_id"], "seatRow".$i => $bulk[$i]["seat_row"],"seatColumn".$i => $bulk[$i]["seat_column"]];
+        }
+        substr($query, 0, -1);
+        $query.=";";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute($bind);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } 
 }
 ?>

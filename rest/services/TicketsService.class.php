@@ -22,5 +22,8 @@ class TicketsService extends BaseService{
       return parent::add($entity);
     }
   }
+  public function bulkAdd($bulk,$userid){
+    return $this->dao->bulkAdd($bulk,$userid);
+  }
 }
 ?>

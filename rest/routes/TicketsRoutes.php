@@ -64,6 +64,11 @@ Flight::route('POST /add/tickets', function(){
     Flight::json(Flight::ticketsService()->addticket(Flight::get('user'),Flight::request()->data->getData()));
 });
 
+Flight::route('POST /bulkadd/tickets', function(){
+    Flight::json(Flight::ticketsService()->bulkAdd(Flight::request()->data->getData(),Flight::get('user')['id']));
+});
+
+
 /**
 * @OA\Post(
 *     path="/add/tickets/admin", 
