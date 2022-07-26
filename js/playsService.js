@@ -9,10 +9,11 @@ function getQuerystring(key) {
         }
     }
 }
-
+var idd;
 var PlayService = {
     info : function(id){
         var play;
+        idd= id;
         $.ajax({
             url: `rest/get/play/${id}`,
             type: "GET",
@@ -91,7 +92,7 @@ var PlayService = {
 }
 function SelectSeat(row, col, session){
     $("#tickets").html(`<h1> Selected seat: Row ${row+1} Column ${col+1} at Session number ${session} `);
-    let data = {"session_id": session, "seat_row" : row, "seat_column":col};
+    let data = {"play_id": idd,"session_id": session, "seat_row" : row, "seat_column":col};
     var stored = JSON.parse(localStorage.getItem("selected_seats"));
     if(stored == null){
         var seats = [];

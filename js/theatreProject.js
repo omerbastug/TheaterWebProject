@@ -554,6 +554,7 @@ function showProfile(){
     });
     
 }
+
 function updateAccountDetails(){
     $(".profileinput").attr("disabled",false);
     $("#profilebutton").hide();
@@ -592,3 +593,240 @@ function updateAjax(entity){
     });
     showProfile();
 }
+
+function showCart(){
+    var loading = `
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>`;
+    $("#mainbody").html(loading);
+    
+    var html = `
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12">
+            <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+            <div class="card-body p-0">
+                <div class="row g-0">
+                <div class="col-lg-8">
+                    <div id="cart_list" class="p-5">
+                        <div class="d-flex justify-content-between align-items-center mb-5">
+                        <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
+                        <h6 class="mb-0 text-muted">3 items</h6>
+                        </div>
+                        <hr class="my-4">
+                    </div>
+                </div>
+                <div class="col-lg-4 bg-grey">
+                    <div class="p-5">
+                    <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
+                    <hr class="my-4">
+
+                    <div class="d-flex justify-content-between mb-4">
+                        <h5 class="text-uppercase">items 3</h5>
+                        <h5>€ 132.00</h5>
+                    </div>
+
+                    <h5 class="text-uppercase mb-3">Shipping</h5>
+
+                    <div class="mb-4 pb-2">
+                        <p> PDF delivery </p>
+                    </div>
+
+
+                    <hr class="my-4">
+
+                    <div class="d-flex justify-content-between mb-5">
+                        <h5 class="text-uppercase">Total price</h5>
+                        <h5>€ 137.00</h5>
+                    </div>
+
+                    <button type="button" class="btn btn-dark btn-block btn-lg"
+                        data-mdb-ripple-color="dark">Purchase</button>
+
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    `;
+    $("#mainbody").html(html);
+    html = "";
+    var seats = JSON.parse(localStorage.getItem("selected_seats"));
+    if(seats.length==undefined) return;
+    for(let i = 0; i<seats.length; i++){
+        html ="";
+        console.log(seats[i].play_id);
+        var playindex;
+        for(let j = 0; j<plays.length; j++){
+            if(seats[i].play_id == plays[j].id){
+                console.log(j);
+                playindex = j;
+                break;
+            }
+        }
+        var sesindex;
+        for(let j = 0; j<sessions.length; j++){
+            if(seats[i].session_id == sessions[j].id){
+                console.log(j);
+                sesindex = j;
+                break;
+            }
+        }
+        if($("#session"+sessions[sesindex].id).length){
+
+        } else {
+            html += `<div id="#session${sessions[sesindex].id}" class="row mb-4 d-flex justify-content-between align-items-center">
+                            <div class="col-md-2 col-lg-2 col-xl-2">
+                            <img
+                                src="images/play/${seats[i].play_id}.jpg"
+                                class="img-fluid rounded-3" alt="play image">
+                            </div>
+
+                            <div class="col-md-3 col-lg-3 col-xl-3">
+                                <h6 class="text-muted">${plays[playindex].name}</h6>
+                                <h6 class="text-black mb-0">${sessions[sesindex].time}</h6>
+                            </div>
+
+                            <div class="col-md-3 col-lg-3 col-xl-3 ">
+                                <h6 class="text-muted">Seat(s)</h6>
+                                <h6 id="cart_seats${seats[i].session_id}"class="text-black mb-0">[${seats[i].seat_row+1},${seats[i].seat_column+1}]</h6>
+                            </div>
+
+                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                <h6 class="mb-0">€ 44.00</h6>
+                            </div>
+                            <button type="button" onclick="deletecartlistitem(${i},${seats[i].session_id})" class="btn-close col-md-1 col-lg-1 col-xl-1 text-end" aria-label="Close"></button>
+                        </div>
+
+                    <hr class="my-4">`;
+        }
+        $("#cart_list").append(html);
+    }
+    $("#cart_list").append(`<div class="pt-5"></div>`);
+}
+
+function deletecartlistitem(index,sesid){
+    $(`#session${sesid}`).remove();
+    var seats = JSON.parse(localStorage.getItem("selected_seats"));  
+    seats.splice(index,1);
+    localStorage.removeItem('selected_seats');
+    localStorage.setItem('selected_seats', JSON.stringify(seats));
+    showCart();
+}
+
+{/* <div class="d-flex justify-content-between align-items-center mb-5">
+<h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
+<h6 class="mb-0 text-muted">3 items</h6>
+</div>
+<hr class="my-4">
+
+<div class="row mb-4 d-flex justify-content-between align-items-center">
+<div class="col-md-2 col-lg-2 col-xl-2">
+<img
+    src="images/play/1.jpg"
+    class="img-fluid rounded-3" alt="Cotton T-shirt">
+</div>
+
+<div class="col-md-3 col-lg-3 col-xl-3">
+    <h6 class="text-muted">Play</h6>
+    <h6 class="text-black mb-0">#1</h6>
+</div>
+
+<div class="col-md-3 col-lg-3 col-xl-3 ">
+    <h6 class="text-muted">Seat(s)</h6>
+    <h6 class="text-black mb-0">[1,2],[1,1]</h6>
+    <!-- <button class="btn btn-link px-2"
+        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+        <i class="fas fa-minus"></i>
+    </button>
+
+    <input id="form1" min="0" name="quantity" value="1" type="number"
+        class="form-control form-control-sm" />
+
+    <button class="btn btn-link px-2"
+        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+        <i class="fas fa-plus"></i>
+    </button> -->
+</div>
+
+<div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+    <h6 class="mb-0">€ 44.00</h6>
+</div>
+<button type="button" class="btn-close col-md-1 col-lg-1 col-xl-1 text-end" aria-label="Close"></button>
+</div>
+
+<hr class="my-4">
+
+<div class="row mb-4 d-flex justify-content-between align-items-center">
+<div class="col-md-2 col-lg-2 col-xl-2">
+<img
+src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img6.webp"
+class="img-fluid rounded-3" alt="Cotton T-shirt">
+</div>
+<div class="col-md-3 col-lg-3 col-xl-3">
+<h6 class="text-muted">Shirt</h6>
+<h6 class="text-black mb-0">Cotton T-shirt</h6>
+</div>
+<div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+<button class="btn btn-link px-2"
+onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+<i class="fas fa-minus"></i>
+</button>
+
+<input id="form1" min="0" name="quantity" value="1" type="number"
+class="form-control form-control-sm" />
+
+<button class="btn btn-link px-2"
+onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+<i class="fas fa-plus"></i>
+</button>
+</div>
+<div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+<h6 class="mb-0">€ 44.00</h6>
+</div>
+<div class="col-md-1 col-lg-1 col-xl-1 text-end">
+<a href="#!" class="text-muted"><i class="fas fa-times"></i></a>
+</div>
+</div>
+
+<hr class="my-4">
+
+<div class="row mb-4 d-flex justify-content-between align-items-center">
+<div class="col-md-2 col-lg-2 col-xl-2">
+<img
+src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img7.webp"
+class="img-fluid rounded-3" alt="Cotton T-shirt">
+</div>
+<div class="col-md-3 col-lg-3 col-xl-3">
+<h6 class="text-muted">Shirt</h6>
+<h6 class="text-black mb-0">Cotton T-shirt</h6>
+</div>
+<div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+<button class="btn btn-link px-2"
+onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+<i class="fas fa-minus"></i>
+</button>
+
+<input id="form1" min="0" name="quantity" value="1" type="number"
+class="form-control form-control-sm" />
+
+<button class="btn btn-link px-2"
+onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+<i class="fas fa-plus"></i>
+</button>
+</div>
+<div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+<h6 class="mb-0">€ 44.00</h6>
+</div>
+<div class="col-md-1 col-lg-1 col-xl-1 text-end">
+<a href="#!" class="text-muted"><i class="fas fa-times"></i></a>
+</div>
+</div>
+
+<hr class="my-4"> */}
