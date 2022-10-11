@@ -1,3 +1,2 @@
-# Theater Application
-Intro to web
-https://walrus-app-l6exi.ondigitalocean.app/
+# Theater Web Application
+Deployed on https://theater-web-app-oj3oa.ondigitalocean.app/
